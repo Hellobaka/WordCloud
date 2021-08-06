@@ -1,14 +1,20 @@
-# BotDevelopmentFramework
+# WordCloud
 
 ## 介绍
-CQ机器人开发白框架
+词云插件
 
 ## 使用流程
-1. Clone项目
-2. 使用`VSCode`打开项目目录
-3. 全局替换文本 `me.cqp.luohuaming.WordCloud.` 到 `me.cqp.luohuaming.需要的插件英文.`
-4. 全局替换文本 `WordCloud.` 到 `需要的插件英文.`
-5. 重命名文件夹 `me.cqp.luohuaming.WordCloud.Core` `me.cqp.luohuaming.WordCloud.Sdk` `me.cqp.luohuaming.WordCloud.Tool` 的 `me.cqp.luohuaming.WordCloud.` 到 `me.cqp.luohuaming.需要的插件英文`
-6. 进入这些文件夹, 对其中的 `me.cqp.luohuaming.WordCloud.Core.csporj`等文件 的 `me.cqp.luohuaming.WordCloud.` 进行同理替换
-7. 使用`VS2019`打开项目
-8. 所有项目的引用重新引用一遍
+1. 下载插件
+2. 解压必要配置
+3. 挂机一段时间，待群内有足够多的消息
+4. 输入`今日词云`来生成词云图
+
+## 配置字段
+```ini
+[Config]
+ImageWidth=500 //词云图片的宽度
+ImageHeight=500 //词云图片的高度
+MaskPath=mask.png //遮罩图片的路径 必须黑白
+WordNum=50 //最大词数量
+Font=75W.ttf //自定义字体路径 也可以是系统内字体名称
+```
