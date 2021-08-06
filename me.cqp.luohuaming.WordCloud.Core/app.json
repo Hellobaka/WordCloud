@@ -1,0 +1,44 @@
+{
+	"ret": 1,
+	"apiver": 9,
+	"name": "词云",
+	"version": "1.0.0",
+	"version_id": 1,
+	"author": "落花茗",
+	"description": "小词云插件",
+	"event": [
+		{
+			"id": 1,
+			"type": 21,
+			"name": "私聊消息处理",
+			"function": "_eventPrivateMsg",
+			"priority": 30000
+		},
+		{
+			"id": 2,
+			"type": 2,
+			"name": "群消息处理",
+			"function": "_eventGroupMsg",
+			"priority": 30000
+		},
+		{
+			"id": 1001,
+			"type": 1001,
+			"name": "酷Q启动事件",
+			"priority": 30000,
+			"function": "_eventStartup"
+		}
+	],
+	"menu": [ // 设置菜单（发布前请删除无用菜单，如果无需设置菜单请全部删除）
+		{
+			"name": "控制台", //菜单名称
+			"function": "_menuA" //菜单对应函数
+		}
+	],
+	"status": [ 
+	],
+	"auth": [ 
+		101,
+		106
+	]
+}
