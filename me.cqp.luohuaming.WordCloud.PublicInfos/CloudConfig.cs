@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,24 @@ namespace PublicInfos
         }
         public static string MaskPath
         {
-            get { return MainSave.ConfigMain.Object["Config"]["MaskPath"]?.ToString(); }
+            get 
+            {
+                string c = MainSave.ConfigMain.Object["Config"]["MaskPath"]?.ToString();
+                if (File.Exists(c) is false)
+                    return Path.Combine(MainSave.AppDirectory, c);
+                return c;
+            }
             set { MainSave.ConfigMain.Object["Config"]["MaskPath"] = value; MainSave.ConfigMain.Save(); }
         }
         public static string Font
         {
-            get { return MainSave.ConfigMain.Object["Config"]["Font"]?.ToString(); }
+            get 
+            { 
+                string c = MainSave.ConfigMain.Object["Config"]["Font"]?.ToString();
+                if (File.Exists(c) is false)
+                    return Path.Combine(MainSave.AppDirectory, c);
+                return c;
+            }
             set { MainSave.ConfigMain.Object["Config"]["Font"] = value; MainSave.ConfigMain.Save(); }
         }
 
