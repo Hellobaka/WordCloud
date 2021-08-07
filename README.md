@@ -1,7 +1,7 @@
 # WordCloud
 
 ## 介绍
-词云插件
+词云插件, 使用了Jieba.Net以及[WordCloudSharp词云库](https://github.com/AmmRage/WordCloudSharp)
 
 ## 使用流程
 1. 下载插件
