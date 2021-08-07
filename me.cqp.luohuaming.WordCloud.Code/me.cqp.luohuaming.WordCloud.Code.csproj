@@ -74,10 +74,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawWordCloud.cs" />
     <Compile Include="Event_PrivateMessage.cs" />
     <Compile Include="Event_GroupMessage.cs" />
     <Compile Include="Event_StartUp.cs" />
-    <Compile Include="OrderFunctions\DrawCloud.cs" />
+    <Compile Include="OrderFunctions\DrawAnyCloud.cs" />
+    <Compile Include="OrderFunctions\DrawTodayCloud.cs" />
+    <Compile Include="OrderFunctions\DrawYesterdayCloud.cs" />
     <Compile Include="OrderFunctions\ExampleFunction.cs" />
     <Compile Include="OrderFunctions\RecordMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
