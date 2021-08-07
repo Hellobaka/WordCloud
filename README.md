@@ -7,7 +7,16 @@
 1. 下载插件
 2. 解压必要配置
 3. 挂机一段时间，待群内有足够多的消息
-4. 输入`今日词云`来生成词云图
+4. `今[日|天]词云` => 今天的词云
+5. `昨[日|天]词云` => 昨天的词云
+6. `词云 yyyy-M-d` => 任意日期的词云
+
+## 数据库配置
+- Mirai-Native框架用户:
+> 下载 System.Data.SQLite.dll 与 SQLite.Interop.dll 文件 放入mirai根目录的 jre\bin 中
+
+- 其他框架用户:
+> 下载 System.Data.SQLite.dll 与 SQLite.Interop.dll 文件 放在框架主体exe下即可
 
 ## 配置字段
 ```ini
