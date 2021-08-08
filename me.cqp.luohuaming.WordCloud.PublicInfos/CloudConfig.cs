@@ -40,7 +40,7 @@ namespace PublicInfos
             get 
             { 
                 string c = MainSave.ConfigMain.Object["Config"]["Font"]?.ToString();
-                if (File.Exists(c) is false)
+                if (c.EndsWith("ttf") || c.EndsWith("ttc"))
                     return Path.Combine(MainSave.AppDirectory, c);
                 return c;
             }
