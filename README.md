@@ -28,5 +28,5 @@ MaskPath=mask.png //遮罩图片的路径 必须黑白
 WordNum=50 //最大词数量
 Font=75W.ttf //自定义字体路径 也可以是系统内字体名称
 FilterWord=http|www //过滤词，使用 | 分割
-SendTmpMsg=词云合成中…… //触发功能之后的提示文本
+SendTmpMsg=词云合成中…… //触发功能之后的提示文本，需要at用户请加上 <@>
 ```
