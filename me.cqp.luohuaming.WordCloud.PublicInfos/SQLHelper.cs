@@ -54,7 +54,8 @@ namespace PublicInfos
                     .Where(x => x.GroupID == groupID).ToList();
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
                 string[] filter = CloudConfig.FilterWord.Split('|');
-                ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
+                if (filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
+                    ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
                 return ls.Where(x => x.DateTime.ToLongDateString() == dateTime.ToLongDateString()).ToList();
             }
         }
