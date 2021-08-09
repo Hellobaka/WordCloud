@@ -53,8 +53,8 @@ namespace PublicInfos
                 var ls = db.Queryable<Record>()
                     .Where(x => x.GroupID == groupID).ToList();
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
-                string[] filter = CloudConfig.FilterWord.Split('|');
-                if (filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
+                string[] filter = CloudConfig.FilterWord?.Split('|');
+                if (filter != null && filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
                     ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
                 return ls.Where(x => x.DateTime.ToLongDateString() == dateTime.ToLongDateString()).ToList();
             }
