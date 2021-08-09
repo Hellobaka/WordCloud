@@ -46,6 +46,23 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["Font"] = value; MainSave.ConfigMain.Save(); }
         }
+        public static string FilterWord
+        {
+            get 
+            {
+                return MainSave.ConfigMain.Object["Config"]["FilterWord"]?.ToString();
+            }
+            set { MainSave.ConfigMain.Object["Config"]["FilterWord"] = value; MainSave.ConfigMain.Save(); }
+        }
+
+        public static string SendTmpMsg
+        {
+            get 
+            { 
+                return MainSave.ConfigMain.Object["Config"]["SendTmpMsg"]?.ToString();
+            }
+            set { MainSave.ConfigMain.Object["Config"]["SendTmpMsg"] = value; MainSave.ConfigMain.Save(); }
+        }
 
     }
 }

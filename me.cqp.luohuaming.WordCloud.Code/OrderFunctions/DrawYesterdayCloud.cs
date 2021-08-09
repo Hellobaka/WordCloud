@@ -25,7 +25,8 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             {
                 SendID = e.FromGroup,
             };
-
+            if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
+                e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>",CQApi.CQCode_At(e.FromQQ).ToSendString()));
             sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now.AddDays(-1))).ToSendString());
             result.SendObject.Add(sendText);
             return result;
