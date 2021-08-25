@@ -2,7 +2,7 @@
 	"ret": 1,
 	"apiver": 9,
 	"name": "水银词云机",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"version_id": 1,
 	"author": "落花茗",
 	"description": "小词云插件",
@@ -29,11 +29,7 @@
 			"function": "_eventStartup"
 		}
 	],
-	"menu": [ // 设置菜单（发布前请删除无用菜单，如果无需设置菜单请全部删除）
-		{
-			"name": "控制台", //菜单名称
-			"function": "_menuA" //菜单对应函数
-		}
+	"menu": [
 	],
 	"status": [ 
 	],

@@ -35,35 +35,10 @@ namespace me.cqp.luohuaming.WordCloud.App.Export
 		/// </summary>	
 		private static void ResolveBackcall ()	
 		{	
-			/*	
-			 * Name: 控制台	
-			 * Function: _menuA	
-			 */	
-			if (AppData.UnityContainer.IsRegistered<IMenuCall> ("控制台"))	
-			{	
-				Menu_menuAHandler += AppData.UnityContainer.Resolve<IMenuCall> ("控制台").MenuCall;	
-			}	
-			
 		}	
 		#endregion	
 		
 		#region --导出方法--	
-		/*	
-		 * Name: 控制台	
-		 * Function: _menuA	
-		 */	
-		public static event EventHandler<CQMenuCallEventArgs> Menu_menuAHandler;	
-		[DllExport (ExportName = "_menuA", CallingConvention = CallingConvention.StdCall)]	
-		public static int Menu_menuA ()	
-		{	
-			if (Menu_menuAHandler != null)	
-			{	
-				CQMenuCallEventArgs args = new CQMenuCallEventArgs (AppData.CQApi, AppData.CQLog, "控制台", "_menuA");	
-				Menu_menuAHandler (typeof (CQMenuExport), args);	
-			}	
-			return 0;	
-		}	
-		
 		#endregion	
 	}	
 }
