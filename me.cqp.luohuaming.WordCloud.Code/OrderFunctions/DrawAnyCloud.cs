@@ -32,7 +32,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
                 if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
                     e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
 
-                sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, dateTime)).ToSendString());
+                sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, dateTime).CloudFilePath).ToSendString());
             }
             else
             {

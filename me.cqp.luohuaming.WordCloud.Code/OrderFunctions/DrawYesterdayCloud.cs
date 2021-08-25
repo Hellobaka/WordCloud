@@ -10,10 +10,22 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
     {
         public bool ImplementFlag { get; set; } = true;
 
-        public string GetOrderStr() => "昨[日|天]词云";
+        public string GetOrderStr() => CloudConfig.YesterdayCloudOrder;
 
-        public bool Judge(string destStr) => Regex.IsMatch(destStr, GetOrderStr());//这里判断是否能触发指令
-
+        public bool Judge(string destStr)
+        {
+            switch (CloudConfig.MatchMode)
+            {
+                case MatchMode.Regex:
+                    return Regex.IsMatch(destStr, GetOrderStr());
+                case MatchMode.Contain:
+                    return destStr.Contains(GetOrderStr());
+                case MatchMode.Full:
+                    return destStr.Trim() == GetOrderStr();
+                default:
+                    return false;
+            }
+        }
         public FunctionResult Progress(CQGroupMessageEventArgs e)//群聊处理
         {
             FunctionResult result = new FunctionResult
@@ -27,7 +39,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             };
             if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>",CQApi.CQCode_At(e.FromQQ).ToSendString()));
-            sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now.AddDays(-1))).ToSendString());
+            sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now.AddDays(-1)).CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;
         }
