@@ -40,6 +40,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     }
                 }
             }
+            e.CQLog.Info("词云生效", $"共开启了 {CloudConfig.EnableGroup.Count} 个群");
             if(CloudConfig.CycleSwitch)
             {
                 Timer timer = new Timer(CloudConfig.CycleInterval);
