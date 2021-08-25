@@ -152,7 +152,10 @@ namespace PublicInfos
         {
             get
             {
-                return (DateTime)(MainSave.ConfigMain.Object["Cycle"]["CycleTime"]?.ToDateTime());
+                DateTime? b = MainSave.ConfigMain.Object["Cycle"]["CycleTime"];
+                if (b.HasValue is false)
+                    b = new DateTime();
+                return b.Value;
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleTime"] = value; MainSave.ConfigMain.Save(); }
         }
