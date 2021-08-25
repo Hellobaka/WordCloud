@@ -17,10 +17,13 @@ namespace PublicInfos
         public static string ImageDirectory { get; set; }
 
         static IniConfig configMain;
+        public static bool IniChangeFlag = false;
         public static IniConfig ConfigMain
         {
             get
             {
+                if (IniChangeFlag)
+                    return configMain;
                 configMain = new IniConfig(Path.Combine(AppDirectory, "Config.ini"));
                 configMain.Encoding = System.Text.Encoding.UTF8;
                 configMain.Load();
