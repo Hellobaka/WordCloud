@@ -89,7 +89,8 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     }
                     sb.Replace(Environment.NewLine, "", sb.Length - 2, 1);
                     sendText = sendText.Replace("<content>", sb.ToString());
-                    MainSave.CQApi.SendGroupMessage(item, sendText);
+                    if(string.IsNullOrWhiteSpace(sendText) is false)
+                        MainSave.CQApi.SendGroupMessage(item, sendText);
                     MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image(r.CloudFilePath));
                 }
 
