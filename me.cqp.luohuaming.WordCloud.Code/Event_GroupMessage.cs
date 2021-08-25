@@ -18,6 +18,8 @@ namespace me.cqp.luohuaming.WordCloud.Code
             };
             try
             {
+                if (!CloudConfig.EnableGroup.Any(x => x == e.FromGroup))
+                    return result;
                 foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
                 {
                     return item.Progress(e);
