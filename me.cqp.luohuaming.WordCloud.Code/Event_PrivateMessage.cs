@@ -18,10 +18,6 @@ namespace me.cqp.luohuaming.WordCloud.Code
             };
             try
             {
-                foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
-                {
-                    return item.Progress(e);
-                }
                 return result;
             }
             catch (Exception exc)
