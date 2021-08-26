@@ -53,8 +53,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
             var wordCloud = new WordCloudSharp.WordCloud(CloudConfig.ImageWidth, CloudConfig.ImageHeight, allowVerical: true, mask: mask, fontname: CloudConfig.Font);
             var image = wordCloud.Draw(wordAndFrequence.Select(x => x.Key).ToList(), wordAndFrequence.Select(x => x.Value).ToList());
             string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
-            image.Save(Path.Combine(MainSave.ImageDirectory, filename));
-            result.CloudFilePath = filename;
+            Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "WordCloud"));
+            image.Save(Path.Combine(MainSave.ImageDirectory, "WordCloud", filename));
+            result.CloudFilePath = "WordCloud\\" + filename;
             return result;
         }
     }
