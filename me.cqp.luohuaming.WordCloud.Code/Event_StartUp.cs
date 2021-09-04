@@ -101,6 +101,8 @@ namespace me.cqp.luohuaming.WordCloud.Code
                             sb.AppendLine($"{index}. {word}");
                             index++;
                         }
+                        if (sb.Length <= 2)
+                            continue;
                         sb.Replace(Environment.NewLine, "", sb.Length - 2, 1);
                         sendText = sendText.Replace("<content>", sb.ToString());
                         if (string.IsNullOrWhiteSpace(sendText) is false)
