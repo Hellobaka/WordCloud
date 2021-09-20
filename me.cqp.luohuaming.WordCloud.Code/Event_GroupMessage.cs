@@ -18,7 +18,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             };
             try
             {
-                if (!CloudConfig.EnableGroup.Any(x => x == e.FromGroup))
+                if (!GetCanCall(e.FromGroup))
                     return result;
                 foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
                 {
@@ -31,6 +31,15 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 MainSave.CQLog.Info("异常抛出", exc.Message + exc.StackTrace);
                 return result;
             }
+        }
+        private static bool GetCanCall(long group)
+        {
+            if (CloudConfig.WhiteListSwitch)
+                return CloudConfig.WhiteList.Any(x => x == group);
+            else if (CloudConfig.BlackListSwitch)
+                return !CloudConfig.BlackList.Any(x => x == group);
+            else
+                return CloudConfig.WhiteList.Any(x => x == group);
         }
     }
 }

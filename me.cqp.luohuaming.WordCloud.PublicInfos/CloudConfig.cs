@@ -91,11 +91,22 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["FilterWord"] = value; MainSave.ConfigMain.Save(); }
         }
-        public static List<long> EnableGroup
+        public static bool WhiteListSwitch
         {
             get
             {
-                var b = MainSave.ConfigMain.Object["Config"]["EnableGroup"]?.ToString();
+                int? b = MainSave.ConfigMain.Object["WhiteList"]["Switch"];
+                if (b.HasValue is false)
+                    b = 0;
+                return b == 1;
+            }
+            set { MainSave.ConfigMain.Object["WhiteList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
+        }
+        public static List<long> WhiteList
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["WhiteList"]["Groups"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
                     return new List<long>();
                 return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
@@ -105,7 +116,35 @@ namespace PublicInfos
                 string b = "";
                 value.ForEach(x => b += x.ToString() + "|");
                 b.Remove(b.Length - 1);
-                MainSave.ConfigMain.Object["Config"]["EnableGroup"] = b; MainSave.ConfigMain.Save();
+                MainSave.ConfigMain.Object["WhiteList"]["Groups"] = b; MainSave.ConfigMain.Save();
+            }
+        }
+        public static bool BlackListSwitch
+        {
+            get
+            {
+                int? b = MainSave.ConfigMain.Object["BlackList"]["Switch"];
+                if (b.HasValue is false)
+                    b = 0;
+                return b == 1;
+            }
+            set { MainSave.ConfigMain.Object["BlackList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
+        }
+        public static List<long> BlackList
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["BlackList"]["Groups"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return new List<long>();
+                return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
+            }
+            set
+            {
+                string b = "";
+                value.ForEach(x => b += x.ToString() + "|");
+                b.Remove(b.Length - 1);
+                MainSave.ConfigMain.Object["BlackList"]["Groups"] = b; MainSave.ConfigMain.Save();
             }
         }
 

@@ -24,14 +24,18 @@ namespace me.cqp.luohuaming.WordCloud.Code
             StringBuilder stringBuilder = new StringBuilder();
             ls.ForEach(x => stringBuilder.AppendLine(x.Message));
             var extractor = new TfidfExtractor();
-            var weight = extractor.ExtractTagsWithWeight(stringBuilder.ToString(), CloudConfig.WordNum);
+            var weight = extractor.ExtractTagsWithWeight(stringBuilder.ToString(), int.MaxValue);
 
             CloudResult result = new CloudResult();
             Dictionary<string, int> wordAndFrequence = new Dictionary<string, int>();
             result.WordNum = weight.Count();
+            int count = 0;
             foreach (var item in weight)
             {
+                if (count == CloudConfig.WordNum)
+                    break;
                 wordAndFrequence.Add(item.Word, (int)(item.Weight * 1000));
+                count++;
             }
 
             weight = weight.OrderByDescending(x => x.Weight);

@@ -38,5 +38,24 @@ namespace PublicInfos
             var ImageDirectory = Path.Combine(Environment.CurrentDirectory, "data", "image\\");
             return ImageDirectory;
         }
+        public static List<long> GetSendGroup()
+        {
+            if (CloudConfig.WhiteListSwitch)
+                return CloudConfig.WhiteList;
+            else if (CloudConfig.BlackListSwitch)
+            {
+                var l = MainSave.CQApi.GetGroupList();
+                List<long> r = new List<long>();
+                foreach (var item in l.Select(x => x.Group.Id))
+                {
+                    if (CloudConfig.BlackList.Any(x => x == item))
+                        continue;
+                    r.Add(item);
+                }
+                return r;
+            }
+            else
+                return CloudConfig.WhiteList;
+        }
     }
 }

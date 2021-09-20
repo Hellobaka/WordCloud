@@ -7,6 +7,7 @@ using System.Timers;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.WordCloud.Tool.IniConfig.Linq;
 using PublicInfos;
 using Timer = System.Timers.Timer;
 
@@ -43,7 +44,18 @@ namespace me.cqp.luohuaming.WordCloud.Code
                         }
                     }
                 }
-                e.CQLog.Info("词云生效", $"共开启了 {CloudConfig.EnableGroup.Count} 个群");
+                if (MainSave.ConfigMain.Object["Config"].ContainsKey("EnableGroup"))
+                {
+                    MainSave.IniChangeFlag = true;
+                    MainSave.ConfigMain.Object["WhiteList"]["Switch"] = new IValue(1);
+                    MainSave.ConfigMain.Object["WhiteList"]["Groups"] = MainSave.ConfigMain.Object["Config"]["EnableGroup"];
+                    MainSave.ConfigMain.Object["Config"].Remove("EnableGroup");
+                    MainSave.ConfigMain.Save();
+                    MainSave.IniChangeFlag = false;
+                }
+                e.CQLog.Info("词云生效", $"{(CloudConfig.BlackListSwitch ? "黑名单模式" : "白名单模式")}, " +
+                    $"共{(CloudConfig.BlackListSwitch ? "禁用" : "开启")}了 " +
+                    $"{(CloudConfig.BlackListSwitch ? CloudConfig.BlackList.Count : CloudConfig.WhiteList.Count)} 个群");
                 if (CloudConfig.CycleSwitch)
                 {
                     timer.Interval = CloudConfig.CycleInterval;
@@ -73,7 +85,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     CallFlag = true;
                     Thread thread = new Thread(() => { Thread.Sleep(60 * 1000); CallFlag = false; });
                     thread.Start();
-                    foreach (var item in CloudConfig.EnableGroup)
+                    foreach (var item in CommonHelper.GetSendGroup())
                     {
                         DrawWordCloud.CloudResult r;
                         switch (CloudConfig.CycleMode)
