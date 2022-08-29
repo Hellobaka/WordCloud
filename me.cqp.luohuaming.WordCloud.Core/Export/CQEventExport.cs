@@ -64,7 +64,7 @@ namespace me.cqp.luohuaming.WordCloud.App.Export
 			// 反射获取 AppData 实例	
 			Type appDataType = typeof (AppData);	
 			// 注册一个 CQApi 实例	
-			AppInfo appInfo = new AppInfo ("me.cqp.luohuaming.WordCloud", 1, 9, "水银词云机", "1.0.4", 1, "落花茗", "小词云插件", authCode);	
+			AppInfo appInfo = new AppInfo ("me.cqp.luohuaming.WordCloud", 1, 9, "水银词云机", "1.0.5", 1, "落花茗", "小词云插件", authCode);	
 			appDataType.GetRuntimeProperty ("CQApi").GetSetMethod (true).Invoke (null, new object[] { new CQApi (appInfo) });	
 			AppData.UnityContainer.RegisterInstance<CQApi> ("me.cqp.luohuaming.WordCloud", AppData.CQApi);	
 			// 向容器注册一个 CQLog 实例	
@@ -176,8 +176,7 @@ namespace me.cqp.luohuaming.WordCloud.App.Export
 		public static int Event_eventGroupMsg (int subType, int msgId, long fromGroup, long fromQQ, string fromAnonymous, IntPtr msg, int font)	
 		{	
 			if (Event_eventGroupMsgHandler != null)	
-			{
-				if (string.IsNullOrWhiteSpace(fromAnonymous) is false) return 0;
+			{	
 				CQGroupMessageEventArgs args = new CQGroupMessageEventArgs (AppData.CQApi, AppData.CQLog, 2, 2, "群消息处理", "_eventGroupMsg", 30000, subType, msgId, fromGroup, fromQQ, fromAnonymous, msg.ToString(CQApi.DefaultEncoding), false);	
 				Event_eventGroupMsgHandler (typeof (CQEventExport), args);	
 				return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);	
