@@ -54,4 +54,9 @@ Switch=0
 [BlackList]
 Groups=89****846|644****97
 Switch=1
+
+; 使用|分割每个QQ号
+; 拦截的QQ号不能触发功能、记录发言
+[BlockList]
+QQID=863450594
 ```
