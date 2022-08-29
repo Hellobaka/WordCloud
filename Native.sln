@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.WordCloud.Tool", "me.cqp.luohuaming.WordCloud.Tool\me.cqp.luohuaming.WordCloud.Tool.csproj", "{0CA93EB9-4E25-46C6-94D2-0F97137A1606}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.WordCloud.UI", "me.cqp.luohuaming.WordCloud.UI\me.cqp.luohuaming.WordCloud.UI.csproj", "{6E9094E7-EB54-4BDD-9CAF-EAC840E35362}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.WordCloud.PublicInfos", "me.cqp.luohuaming.WordCloud.PublicInfos\me.cqp.luohuaming.WordCloud.PublicInfos.csproj", "{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.WordCloud.CodeTests", "me.cqp.luohuaming.WordCloud.CodeTests\me.cqp.luohuaming.WordCloud.CodeTests.csproj", "{F035C01E-87B9-4B1C-8017-F98F4BB292A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,13 @@ Global
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|x86.ActiveCfg = Release|Any CPU
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|x86.Build.0 = Release|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{F035C01E-87B9-4B1C-8017-F98F4BB292A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

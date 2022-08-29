@@ -46,6 +46,13 @@ namespace PublicInfos
                 db.Insertable(record).ExecuteCommand();
             }
         }
+        public static List<string> GetAllMsg()
+        {
+            using(var db = GetInstance())
+            {
+                return db.Queryable<Record>().Select(x=>x.Message).ToList();
+            }
+        }
         public static List<Record> GetRecordsByDate(long groupID, DateTime dateTime)
         {
             using (var db = GetInstance())

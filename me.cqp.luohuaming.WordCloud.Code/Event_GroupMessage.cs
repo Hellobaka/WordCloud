@@ -18,7 +18,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             };
             try
             {
-                if (!GetCanCall(e.FromGroup))
+                if (!GetCanCall(e.FromGroup, e.FromQQ))
                     return result;
                 foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
                 {
@@ -32,8 +32,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 return result;
             }
         }
-        private static bool GetCanCall(long group)
+        private static bool GetCanCall(long group, long QQ)
         {
+            if (CloudConfig.BlockList.Any(x => x == QQ)) return false;
             if (CloudConfig.WhiteListSwitch)
                 return CloudConfig.WhiteList.Any(x => x == group);
             else if (CloudConfig.BlackListSwitch)

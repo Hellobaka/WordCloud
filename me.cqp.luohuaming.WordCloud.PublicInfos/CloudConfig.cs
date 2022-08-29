@@ -119,6 +119,23 @@ namespace PublicInfos
                 MainSave.ConfigMain.Object["WhiteList"]["Groups"] = b; MainSave.ConfigMain.Save();
             }
         }
+        public static List<long> BlockList
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["BlockList"]["QQID"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return new List<long>();
+                return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
+            }
+            set
+            {
+                string b = "";
+                value.ForEach(x => b += x.ToString() + "|");
+                b.Remove(b.Length - 1);
+                MainSave.ConfigMain.Object["BlockList"]["QQID"] = b; MainSave.ConfigMain.Save();
+            }
+        }
         public static bool BlackListSwitch
         {
             get

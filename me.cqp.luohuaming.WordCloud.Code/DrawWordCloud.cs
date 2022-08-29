@@ -59,6 +59,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "WordCloud"));
             image.Save(Path.Combine(MainSave.ImageDirectory, "WordCloud", filename));
+            image.Dispose();
             result.CloudFilePath = "WordCloud\\" + filename;
             return result;
         }

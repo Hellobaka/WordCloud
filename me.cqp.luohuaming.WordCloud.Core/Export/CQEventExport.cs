@@ -176,7 +176,8 @@ namespace me.cqp.luohuaming.WordCloud.App.Export
 		public static int Event_eventGroupMsg (int subType, int msgId, long fromGroup, long fromQQ, string fromAnonymous, IntPtr msg, int font)	
 		{	
 			if (Event_eventGroupMsgHandler != null)	
-			{	
+			{
+				if (string.IsNullOrWhiteSpace(fromAnonymous) is false) return 0;
 				CQGroupMessageEventArgs args = new CQGroupMessageEventArgs (AppData.CQApi, AppData.CQLog, 2, 2, "群消息处理", "_eventGroupMsg", 30000, subType, msgId, fromGroup, fromQQ, fromAnonymous, msg.ToString(CQApi.DefaultEncoding), false);	
 				Event_eventGroupMsgHandler (typeof (CQEventExport), args);	
 				return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);	
