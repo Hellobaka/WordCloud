@@ -351,7 +351,18 @@ namespace PublicInfos
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?本月词云$";
+                    return "^(我的)?(个人)?[这|本]个?月词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalYearOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?[这|本]个?年词云$";
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
