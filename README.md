@@ -34,6 +34,18 @@ SendTmpMsg=词云合成中…… ;触发功能之后的提示文本，需要at�
 MatchMode=0 ;指令的触发模式, 但只针对于下面两个可自定义的指令生效, 默认为正则模式. 0 => 正则, 指令必须符合正则的语法. 1 => 模糊匹配, 消息中包含指令将会触发. 2 => 完全匹配
 TodayCloudOrder=^今[日|天]词云$ ;这是一个正则的例子, 在你不配置这个字段时, 默认也是这个
 YesterdayCloudOrder=^昨[日|天]词云$
+LastWeekCloudOrder=^上个?周词云$
+WeekCloudOrder=^[这|本]个?周词云$
+LastMonthCloudOrder=^上个?月词云$
+MonthCloudOrder=^[这|本]个?月词云$
+YearCloudOrder=^[这|本]个?年词云$
+PersonalWeekOrder=^(我的)?(个人)?本周词云$
+PersonalTodayOrder=^(我的)?(个人)?今[日|天]词云$
+PersonalMonthOrder=^(我的)?(个人)?本月词云$
+PersonalLastWeekOrder=^(我的)?(个人)?上个?周词云$
+PersonalYesterdayOrder=^(我的)?(个人)?昨[日|天]词云$
+PersonalLastMonthOrder=^(我的)?(个人)?上个?月词云$
+
 
 [Cycle]
 CycleSwitch=1 ;定时发送开关, 1 => 开启. 0 => 不开启. 不写默认为不开启
