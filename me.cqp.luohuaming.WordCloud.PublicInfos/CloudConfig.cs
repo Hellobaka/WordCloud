@@ -274,7 +274,7 @@ namespace PublicInfos
             {
                 var b = MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
-                    return "上个?周词云";
+                    return "^上个?周词云$";
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
@@ -296,7 +296,7 @@ namespace PublicInfos
             {
                 var b = MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
-                    return "上个?月词云";
+                    return "^上个?月词云$";
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
@@ -351,7 +351,7 @@ namespace PublicInfos
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
-                    return "(我的)?(个人)?本月词云";
+                    return "^(我的)?(个人)?本月词云$";
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
