@@ -42,7 +42,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
             DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddMonths(1));
-            string statistics = $"统计时段: {dt:G}-{DateTime.Now:G}，共计: {drawResult.WordNum}个词汇";
+            string statistics = $"统计时段: {dt.ToString("G").Replace(" 0:00:00", "")}-{DateTime.Now.ToString("G").Replace(" 0:00:00", "")}，共计: {drawResult.WordNum}个词汇";
             sendText.MsgToSend.Add(statistics);
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);

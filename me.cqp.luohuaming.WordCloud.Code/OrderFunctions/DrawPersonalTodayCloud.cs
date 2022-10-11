@@ -44,10 +44,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             };
             if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
-            DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, DateTime.Now, e.FromQQ);
-            string statistics = $"共计: {drawResult.WordNum}个词汇";
-            sendText.MsgToSend.Add(statistics);
+            var drawResult = DrawWordCloud.Draw(e.FromGroup, DateTime.Now, e.FromQQ);
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;

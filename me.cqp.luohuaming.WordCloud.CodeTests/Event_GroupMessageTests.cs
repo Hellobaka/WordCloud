@@ -91,7 +91,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
             MainSave.DBPath = @"data.db";
             MainSave.AppDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
             MainSave.ImageDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
-            string msg = "个人上周词云";
+            string msg = "今年词云";
             CQGroupMessageEventArgs e = new CQGroupMessageEventArgs(MainSave.CQApi, MainSave.CQLog, 0, 0, "", "", 0, 0, 1, 644933097, 863450594, "", msg, false);
             var r = Event_GroupMessage.GroupMessage(e);
             Console.WriteLine($"Result：{r.Result}");

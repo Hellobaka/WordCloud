@@ -318,7 +318,7 @@ namespace PublicInfos
             {
                 var b = MainSave.ConfigMain.Object["Config"]["YearCloudOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
-                    return "^[这|本]个?年词云$";
+                    return "^[这|本|今]个?年词云$";
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["YearCloudOrder"] = value; MainSave.ConfigMain.Save(); }

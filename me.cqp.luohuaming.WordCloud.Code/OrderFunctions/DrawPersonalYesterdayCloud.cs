@@ -47,8 +47,6 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             DateTime dt = DateTime.Now.AddDays(-1);
             dt = new DateTime(dt.Year, dt.Month, dt.Day);
             var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddDays(1), e.FromQQ);
-            string statistics = $"共计: {drawResult.WordNum}个词汇";
-            sendText.MsgToSend.Add(statistics);
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;

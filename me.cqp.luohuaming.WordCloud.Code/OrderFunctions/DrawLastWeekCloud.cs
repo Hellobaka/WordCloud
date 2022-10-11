@@ -48,7 +48,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
                 dt = dt.AddDays(-1).AddDays(-7);
             }
             var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddDays(7));
-            string statistics = $"统计时段: {dt:G}-{dt.AddDays(7):G}，共计: {drawResult.WordNum}个词汇";
+            string statistics = $"统计时段: {dt.ToString("G").Replace(" 0:00:00", "")}-{dt.AddDays(7).ToString("G").Replace(" 0:00:00", "")}，共计: {drawResult.WordNum}个词汇";
             sendText.MsgToSend.Add(statistics);
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
