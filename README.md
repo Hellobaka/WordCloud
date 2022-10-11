@@ -4,11 +4,13 @@
 词云插件, 使用了Jieba.Net以及[WordCloudSharp词云库](https://github.com/AmmRage/WordCloudSharp)
 
 ## 使用流程
+以下提及的所有文件均在[1.0.0](https://github.com/Hellobaka/WordCloud/releases/tag/1.0.0)
 1. 下载插件
 2. 解压`jieba.zip`到数据目录下(`me.cqp.luohuaming.WordCloud`)
 3. 挂机一段时间，待群内有足够多的消息
 4. `今[日|天]词云` => 今天的词云
 5. `昨[日|天]词云` => 昨天的词云
+6. 更多指令见配置文件
 6. `词云 yyyy-M-d` => 任意日期的词云
 
 ## 数据库配置
@@ -70,5 +72,5 @@ Switch=1
 ; 使用|分割每个QQ号
 ; 拦截的QQ号不能触发功能、记录发言
 [BlockList]
-QQID=863450594
+QQID=86******94
 ```
