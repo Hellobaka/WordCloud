@@ -18,11 +18,22 @@ namespace me.cqp.luohuaming.WordCloud.Code
             public int WordNum { get; set; }
             public List<string> HotWords { get; set; }
         }
+        public static CloudResult Draw(long GroupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
+        {
+            dateTimeA = new DateTime(dateTimeA.Year, dateTimeA.Month, dateTimeA.Day);
+            dateTimeB = new DateTime(dateTimeB.Year, dateTimeB.Month, dateTimeB.Day);
+            var ls = SQLHelper.GetRecordsByDateRange(GroupID, dateTimeA, dateTimeB, QQ);
+            return Draw(ls);
+        }
         public static CloudResult Draw(long GroupID, DateTime dateTime, long QQ = 0)
         {
-            var ls = SQLHelper.GetRecordsByDate(GroupID, dateTime);
+            var ls = SQLHelper.GetRecordsByDate(GroupID, dateTime, QQ);
+            return Draw(ls);
+        }
+        public static CloudResult Draw(List<PublicInfos.Model.Record> records)
+        {
             StringBuilder stringBuilder = new StringBuilder();
-            ls.ForEach(x => stringBuilder.AppendLine(x.Message));
+            records.ForEach(x => stringBuilder.AppendLine(x.Message));
             var extractor = new TfidfExtractor();
             var weight = extractor.ExtractTagsWithWeight(stringBuilder.ToString(), int.MaxValue);
 
@@ -34,7 +45,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             {
                 if (count == CloudConfig.WordNum)
                     break;
-                wordAndFrequence.Add(item.Word, (int)(item.Weight * 1000));
+                wordAndFrequence.Add(item.Word, (int)(item.Weight));
                 count++;
             }
 

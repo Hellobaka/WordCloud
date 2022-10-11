@@ -12,6 +12,8 @@ using System.Threading;
 using System.Diagnostics;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Expand;
 using System.Windows;
+using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Model;
+using System.Reflection;
 
 namespace me.cqp.luohuaming.WordCloud.Code.Tests
 {
@@ -27,7 +29,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
             event_.CQStartup(null, e);
         }
         [TestMethod()]
-        public void GroupMessageTest()
+        public void GroupMessageStressTest()
         {
             Pre();
             List<long> rdG = new List<long>();
@@ -64,6 +66,40 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
                     });
                     thread.Start();
                     Thread.Sleep(50);
+                }
+            }
+        }
+        [TestMethod()]
+        public void GroupMessageTest()
+        {
+            foreach (var item in Assembly.GetAssembly(typeof(Event_GroupMessage)).GetTypes())
+            {
+                if (item.IsInterface)
+                    continue;
+                foreach (var instance in item.GetInterfaces())
+                {
+                    if (instance == typeof(IOrderModel))
+                    {
+                        IOrderModel obj = (IOrderModel)Activator.CreateInstance(item);
+                        if (obj.ImplementFlag == false)
+                            break;
+                        MainSave.Instances.Add(obj);
+                    }
+                }
+            }
+
+            MainSave.DBPath = @"data.db";
+            MainSave.AppDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
+            MainSave.ImageDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
+            string msg = "个人上周词云";
+            CQGroupMessageEventArgs e = new CQGroupMessageEventArgs(MainSave.CQApi, MainSave.CQLog, 0, 0, "", "", 0, 0, 1, 644933097, 863450594, "", msg, false);
+            var r = Event_GroupMessage.GroupMessage(e);
+            Console.WriteLine($"Result：{r.Result}");
+            if(r.SendFlag)
+            {
+                foreach(var item in r.SendObject[0].MsgToSend)
+                {
+                    Console.WriteLine(item);
                 }
             }
         }

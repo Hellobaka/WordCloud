@@ -6,11 +6,11 @@ using PublicInfos;
 
 namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
 {
-    public class DrawTodayCloud : IOrderModel
+    public class DrawLastMonthCloud : IOrderModel
     {
         public bool ImplementFlag { get; set; } = true;
 
-        public string GetOrderStr() => CloudConfig.TodayCloudOrder;
+        public string GetOrderStr() => CloudConfig.LastMonthCloudOrder;
 
         public bool Judge(string destStr)
         {
@@ -40,8 +40,11 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             };
             if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
-
-            sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now).CloudFilePath).ToSendString());
+            DateTime dt = new DateTime(DateTime.Now.AddMonths(-1).Year, DateTime.Now.AddMonths(-1).Month, 1);
+            var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddMonths(1));
+            string statistics = $"统计时段: {dt:G}-{dt.AddMonths(1):G}，共计: {drawResult.WordNum}个词汇";
+            sendText.MsgToSend.Add(statistics);
+            sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;
         }

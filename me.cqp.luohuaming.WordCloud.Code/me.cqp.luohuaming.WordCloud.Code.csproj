@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>me.cqp.luohuaming.WordCloud.Code</RootNamespace>
     <AssemblyName>me.cqp.luohuaming.WordCloud.Code</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -79,8 +79,19 @@
     <Compile Include="Event_GroupMessage.cs" />
     <Compile Include="Event_StartUp.cs" />
     <Compile Include="OrderFunctions\DrawAnyCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalLastMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalYesterdayCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalTodayCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalLastWeekCloud.cs" />
+    <Compile Include="OrderFunctions\DrawYearCloud.cs" />
+    <Compile Include="OrderFunctions\DrawMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawLastMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawLastWeekCloud.cs" />
+    <Compile Include="OrderFunctions\DrawWeekCloud.cs" />
     <Compile Include="OrderFunctions\DrawTodayCloud.cs" />
     <Compile Include="OrderFunctions\DrawYesterdayCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalWeekCloud.cs" />
     <Compile Include="OrderFunctions\ExampleFunction.cs" />
     <Compile Include="OrderFunctions\RecordMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

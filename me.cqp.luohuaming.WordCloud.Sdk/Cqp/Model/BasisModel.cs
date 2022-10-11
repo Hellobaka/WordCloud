@@ -29,7 +29,7 @@ namespace me.cqp.luohuaming.WordCloud.Sdk.Cqp.Model
 		{
 			if (api == null)
 			{
-				throw new ArgumentNullException ("api");
+				// throw new ArgumentNullException ("api");
 			}
 
 			this.CQApi = api;

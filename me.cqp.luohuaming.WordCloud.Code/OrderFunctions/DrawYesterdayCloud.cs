@@ -46,7 +46,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
 
         public FunctionResult Progress(CQPrivateMessageEventArgs e)//私聊处理
         {
-            throw new NotImplementedException();
+            return new FunctionResult { Result = false, SendFlag = false };
         }
     }
 }

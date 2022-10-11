@@ -65,7 +65,7 @@ namespace PublicInfos
         {
             get
             {
-                string c = MainSave.ConfigMain.Object["Config"]["MaskPath"]?.ToString();
+                string c = MainSave.ConfigMain.Object["Config"]["MaskPath"]?.ToString() ?? "";
                 if (File.Exists(c) is false)
                     return Path.Combine(MainSave.AppDirectory, c);
                 return c;
@@ -267,6 +267,127 @@ namespace PublicInfos
                 return b;
             }
             set { MainSave.ConfigMain.Object["Config"]["YesterdayCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string LastWeekCloudOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "上个?周词云";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string WeekCloudOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["WeekCloudOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^[这|本]个?周词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["WeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string LastMonthCloudOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "上个?月词云";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string MonthCloudOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["MonthCloudOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^[这|本]个?月词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["MonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string YearCloudOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["YearCloudOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^[这|本]个?年词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["YearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalWeekOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalWeekOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?本周词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalWeekOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalTodayOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalTodayOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?今[日|天]词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalTodayOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalMonthOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "(我的)?(个人)?本月词云";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalLastWeekOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalLastWeekOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?上个?周词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalLastWeekOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalYesterdayOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalYesterdayOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?昨[日|天]词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalYesterdayOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+        public static string PersonalLastMonthOrder
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalLastMonthOrder"]?.ToString();
+                if (string.IsNullOrWhiteSpace(b))
+                    return "^(我的)?(个人)?上个?月词云$";
+                return b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalLastMonthOrder"] = value; MainSave.ConfigMain.Save(); }
         }
     }
 }

@@ -55,7 +55,7 @@ namespace me.cqp.luohuaming.WordCloud.Sdk.Cqp.Model
 		/// <returns>发送成功将返回 <see cref="QQMessage"/> 对象</returns>
 		public QQMessage SendGroupMessage (params object[] message)
 		{
-			return this.CQApi.SendGroupMessage (this, message);
+			return this.CQApi?.SendGroupMessage (this, message);
 		}
 		/// <summary>
 		/// 获取群信息

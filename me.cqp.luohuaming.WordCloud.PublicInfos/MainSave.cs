@@ -17,7 +17,7 @@ namespace PublicInfos
         public static string ImageDirectory { get; set; }
 
         static IniConfig configMain;
-        public static bool IniChangeFlag = false;
+        public static bool IniChangeFlag { get; set; } = false;
         public static IniConfig ConfigMain
         {
             get

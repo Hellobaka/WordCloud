@@ -1,4 +1,5 @@
-﻿using PublicInfos.Model;
+﻿using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Model;
+using PublicInfos.Model;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -48,22 +49,37 @@ namespace PublicInfos
         }
         public static List<string> GetAllMsg()
         {
-            using(var db = GetInstance())
+            using (var db = GetInstance())
             {
-                return db.Queryable<Record>().Select(x=>x.Message).ToList();
+                return db.Queryable<Record>().Select(x => x.Message).ToList();
             }
         }
-        public static List<Record> GetRecordsByDate(long groupID, DateTime dateTime)
+        public static List<Record> GetRecordsByDate(long groupID, DateTime dateTime, long QQ = 0)
+        {
+            using (var db = GetInstance())
+            {
+                DateTime dt1 = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+                DateTime dt2 = dt1.AddDays(1);
+                return GetRecordsByDateRange(groupID, dt1, dt2, QQ);
+            }
+        }
+        public static List<Record> GetRecordsByDateRange(long groupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
         {
             using (var db = GetInstance())
             {
                 var ls = db.Queryable<Record>()
-                    .Where(x => x.GroupID == groupID).ToList();
+                    .Where(x => x.GroupID == groupID)
+                    .WhereIF(QQ != 0, x => x.QQID == QQ)
+                    .Where(x => x.DateTime > dateTimeA && x.DateTime < dateTimeB).ToList();
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
                 string[] filter = CloudConfig.FilterWord?.Split('|');
                 if (filter != null && filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
                     ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
-                return ls.Where(x => x.DateTime.ToLongDateString() == dateTime.ToLongDateString()).ToList();
+                if (CloudConfig.BlockList != null && CloudConfig.BlockList.Count > 0)
+                {
+                    ls = ls.Where(x => !CloudConfig.BlockList.Contains(x.QQID)).ToList();
+                }
+                return ls.ToList();
             }
         }
     }

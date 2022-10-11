@@ -6,11 +6,11 @@ using PublicInfos;
 
 namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
 {
-    public class DrawTodayCloud : IOrderModel
+    public class DrawWeekCloud : IOrderModel
     {
         public bool ImplementFlag { get; set; } = true;
 
-        public string GetOrderStr() => CloudConfig.TodayCloudOrder;
+        public string GetOrderStr() => CloudConfig.WeekCloudOrder;
 
         public bool Judge(string destStr)
         {
@@ -40,8 +40,17 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             };
             if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
-
-            sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now).CloudFilePath).ToSendString());
+            DateTime dt = DateTime.Now;
+            for (int i = 0; i < 7; i++)
+            {
+                if (dt.DayOfWeek == DayOfWeek.Monday)
+                    break;
+                dt = dt.AddDays(-1);
+            }
+            var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddDays(7));
+            string statistics = $"统计时段: {dt:G}-{DateTime.Now:G}，共计: {drawResult.WordNum}个词汇";
+            sendText.MsgToSend.Add(statistics);
+            sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;
         }
