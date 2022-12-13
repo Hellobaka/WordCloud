@@ -47,6 +47,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             DateTime dt = DateTime.Now.AddDays(-1);
             dt = new DateTime(dt.Year, dt.Month, dt.Day);
             var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddDays(1), e.FromQQ);
+            sendText.MsgToSend.Add(e.FromQQ.CQCode_At().ToSendString());
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
             return result;
