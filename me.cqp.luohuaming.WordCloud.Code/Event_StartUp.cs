@@ -85,16 +85,17 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     CallFlag = true;
                     Thread thread = new Thread(() => { Thread.Sleep(60 * 1000); CallFlag = false; });
                     thread.Start();
+                    DateTime currentTime = DateTime.Now;
                     foreach (var item in CommonHelper.GetSendGroup())
                     {
                         DrawWordCloud.CloudResult r;
                         switch (CloudConfig.CycleMode)
                         {
                             case CycleMode.Today:
-                                r = DrawWordCloud.Draw(item, DateTime.Now);
+                                r = DrawWordCloud.Draw(item, currentTime);
                                 break;
                             case CycleMode.Yesterday:
-                                r = DrawWordCloud.Draw(item, DateTime.Now.AddDays(-1));
+                                r = DrawWordCloud.Draw(item, currentTime.AddDays(-1));
                                 break;
                             default:
                                 r = null;
@@ -120,6 +121,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
                         if (string.IsNullOrWhiteSpace(sendText) is false)
                             MainSave.CQApi.SendGroupMessage(item, sendText);
                         MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image(r.CloudFilePath));
+                        Thread.Sleep(1000 * 60);
                     }
                 }
             }
