@@ -80,10 +80,12 @@
     <Compile Include="Event_StartUp.cs" />
     <Compile Include="OrderFunctions\DrawAnyCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalLastMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalLastYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalYesterdayCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalTodayCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalLastWeekCloud.cs" />
+    <Compile Include="OrderFunctions\DrawLastYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawMonthCloud.cs" />
     <Compile Include="OrderFunctions\DrawLastMonthCloud.cs" />
