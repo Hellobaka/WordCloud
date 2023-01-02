@@ -64,7 +64,7 @@ namespace me.cqp.luohuaming.WordCloud.App.Export
 			// 反射获取 AppData 实例	
 			Type appDataType = typeof (AppData);	
 			// 注册一个 CQApi 实例	
-			AppInfo appInfo = new AppInfo ("me.cqp.luohuaming.WordCloud", 1, 9, "水银词云机", "1.0.7", 1, "落花茗", "小词云插件", authCode);	
+			AppInfo appInfo = new AppInfo ("me.cqp.luohuaming.WordCloud", 1, 9, "水银词云机", "1.0.8", 1, "落花茗", "小词云插件", authCode);	
 			appDataType.GetRuntimeProperty ("CQApi").GetSetMethod (true).Invoke (null, new object[] { new CQApi (appInfo) });	
 			AppData.UnityContainer.RegisterInstance<CQApi> ("me.cqp.luohuaming.WordCloud", AppData.CQApi);	
 			// 向容器注册一个 CQLog 实例	
