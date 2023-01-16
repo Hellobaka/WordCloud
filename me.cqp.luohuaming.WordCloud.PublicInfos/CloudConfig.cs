@@ -327,12 +327,12 @@ namespace PublicInfos
         {
             get
             {
-                var b = MainSave.ConfigMain.Object["Config"]["YearCloudOrder"]?.ToString();
+                var b = MainSave.ConfigMain.Object["Config"]["LastYearCloudOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
                     return "^去年词云$";
                 return b;
             }
-            set { MainSave.ConfigMain.Object["Config"]["YearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
+            set { MainSave.ConfigMain.Object["Config"]["LastYearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
         public static string PersonalWeekOrder
         {
@@ -376,18 +376,18 @@ namespace PublicInfos
                     return "^(我的)?(个人)?[这|本]个?年词云$";
                 return b;
             }
-            set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
         public static string PersonalLastYearOrder
         {
             get
             {
-                var b = MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"]?.ToString();
+                var b = MainSave.ConfigMain.Object["Config"]["PersonalLastYearOrder"]?.ToString();
                 if (string.IsNullOrWhiteSpace(b))
                     return "^我的去年词云$";
                 return b;
             }
-            set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
+            set { MainSave.ConfigMain.Object["Config"]["PersonalLastYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
         public static string PersonalLastWeekOrder
         {
