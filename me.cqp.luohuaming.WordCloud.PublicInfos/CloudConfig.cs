@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PublicInfos
 {
@@ -34,7 +32,10 @@ namespace PublicInfos
                 MainSave.IniChangeFlag = false;
                 int? b = MainSave.ConfigMain.Object["Config"]["ImageWidth"];
                 if (b.HasValue is false)
+                {
                     b = 500;
+                }
+
                 return b.Value;
             }
             set { MainSave.ConfigMain.Object["Config"]["ImageWidth"] = value; MainSave.ConfigMain.Save(); }
@@ -45,7 +46,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["Config"]["ImageHeight"];
                 if (b.HasValue is false)
+                {
                     b = 500;
+                }
+
                 return b.Value;
             }
             set { MainSave.ConfigMain.Object["Config"]["ImageHeight"] = value; MainSave.ConfigMain.Save(); }
@@ -56,7 +60,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["Config"]["WordNum"];
                 if (b.HasValue is false)
+                {
                     b = 50;
+                }
+
                 return b.Value;
             }
             set { MainSave.ConfigMain.Object["Config"]["WordNum"] = value; MainSave.ConfigMain.Save(); }
@@ -66,9 +73,7 @@ namespace PublicInfos
             get
             {
                 string c = MainSave.ConfigMain.Object["Config"]["MaskPath"]?.ToString() ?? "";
-                if (File.Exists(c) is false)
-                    return Path.Combine(MainSave.AppDirectory, c);
-                return c;
+                return File.Exists(c) is false ? Path.Combine(MainSave.AppDirectory, c) : c;
             }
             set { MainSave.ConfigMain.Object["Config"]["MaskPath"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -77,9 +82,7 @@ namespace PublicInfos
             get
             {
                 string c = MainSave.ConfigMain.Object["Config"]["Font"]?.ToString();
-                if (c.EndsWith("ttf") || c.EndsWith("ttc"))
-                    return Path.Combine(MainSave.AppDirectory, c);
-                return c;
+                return c.EndsWith("ttf") || c.EndsWith("ttc") ? Path.Combine(MainSave.AppDirectory, c) : c;
             }
             set { MainSave.ConfigMain.Object["Config"]["Font"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -97,7 +100,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["WhiteList"]["Switch"];
                 if (b.HasValue is false)
+                {
                     b = 0;
+                }
+
                 return b == 1;
             }
             set { MainSave.ConfigMain.Object["WhiteList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
@@ -107,9 +113,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["WhiteList"]["Groups"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return new List<long>();
-                return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
+                return string.IsNullOrWhiteSpace(b) ? new List<long>() : Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
             }
             set
             {
@@ -124,9 +128,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["BlockList"]["QQID"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return new List<long>();
-                return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
+                return string.IsNullOrWhiteSpace(b) ? new List<long>() : Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
             }
             set
             {
@@ -142,7 +144,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["BlackList"]["Switch"];
                 if (b.HasValue is false)
+                {
                     b = 0;
+                }
+
                 return b == 1;
             }
             set { MainSave.ConfigMain.Object["BlackList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
@@ -152,9 +157,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["BlackList"]["Groups"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return new List<long>();
-                return Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
+                return string.IsNullOrWhiteSpace(b) ? new List<long>() : Array.ConvertAll(b.Split('|'), (input) => Convert.ToInt64(input)).ToList();
             }
             set
             {
@@ -187,7 +190,10 @@ namespace PublicInfos
 
                 int? b = MainSave.ConfigMain.Object["Cycle"]["CycleSwitch"];
                 if (b.HasValue is false)
+                {
                     b = 0;
+                }
+
                 return b == 1;
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleSwitch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
@@ -199,7 +205,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["Cycle"]["Interval"];
                 if (b.HasValue is false || b < 10 * 1000)
+                {
                     b = 10 * 1000;
+                }
+
                 return b.Value;
             }
             set { MainSave.ConfigMain.Object["Cycle"]["Interval"] = value; MainSave.ConfigMain.Save(); }
@@ -210,7 +219,10 @@ namespace PublicInfos
             {
                 DateTime? b = MainSave.ConfigMain.Object["Cycle"]["CycleTime"];
                 if (b.HasValue is false)
+                {
                     b = new DateTime();
+                }
+
                 return b.Value;
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleTime"] = value; MainSave.ConfigMain.Save(); }
@@ -221,7 +233,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["Cycle"]["CycleMode"];
                 if (b.HasValue is false)
+                {
                     b = 0;
+                }
+
                 return (CycleMode)b;
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleMode"] = (int)value; MainSave.ConfigMain.Save(); }
@@ -240,7 +255,10 @@ namespace PublicInfos
             {
                 int? b = MainSave.ConfigMain.Object["Config"]["MatchMode"];
                 if (b.HasValue is false)
+                {
                     b = 0;
+                }
+
                 return (MatchMode)b;
             }
             set { MainSave.ConfigMain.Object["Config"]["MatchMode"] = (int)value; MainSave.ConfigMain.Save(); }
@@ -251,9 +269,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["TodayCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^今[日|天]词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^今[日|天]词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["TodayCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -262,9 +278,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["YesterdayCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^昨[日|天]词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^昨[日|天]词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["YesterdayCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -273,9 +287,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^上个?周词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^上个?周词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -284,9 +296,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["WeekCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^[这|本]个?周词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^[这|本]个?周词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["WeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -295,9 +305,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^上个?月词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^上个?月词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -306,9 +314,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["MonthCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^[这|本]个?月词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^[这|本]个?月词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["MonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -317,9 +323,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["YearCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^[这|本|今]个?年词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^[这|本|今]个?年词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["YearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -328,9 +332,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["LastYearCloudOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^去年词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^去年词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["LastYearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -339,9 +341,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalWeekOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?本周词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?本周词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalWeekOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -350,9 +350,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalTodayOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?今[日|天]词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?今[日|天]词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalTodayOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -361,9 +359,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?[这|本]个?月词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?[这|本]个?月词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -372,9 +368,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?[这|本]个?年词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?[这|本]个?年词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -383,9 +377,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalLastYearOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^我的去年词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^我的去年词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalLastYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -394,9 +386,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalLastWeekOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?上个?周词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?上个?周词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalLastWeekOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -405,9 +395,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalYesterdayOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?昨[日|天]词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?昨[日|天]词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalYesterdayOrder"] = value; MainSave.ConfigMain.Save(); }
         }
@@ -416,11 +404,29 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["PersonalLastMonthOrder"]?.ToString();
-                if (string.IsNullOrWhiteSpace(b))
-                    return "^(我的)?(个人)?上个?月词云$";
-                return b;
+                return string.IsNullOrWhiteSpace(b) ? "^(我的)?(个人)?上个?月词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalLastMonthOrder"] = value; MainSave.ConfigMain.Save(); }
+        }
+
+        public static int GroupRankMaxCount
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["TodayRank"]?.ToString();
+                return int.TryParse(b, out int value) ? value : 10;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["TodayRank"] = value; MainSave.ConfigMain.Save(); }
+        }
+
+        public static string TodayRank
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["TodayRank"]?.ToString();
+                return string.IsNullOrWhiteSpace(b) ? "^今日发言排行$" : b;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["TodayRank"] = value; MainSave.ConfigMain.Save(); }
         }
     }
 }

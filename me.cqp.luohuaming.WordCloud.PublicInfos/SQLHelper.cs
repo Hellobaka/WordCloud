@@ -1,5 +1,4 @@
-﻿using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Model;
-using PublicInfos.Model;
+﻿using PublicInfos.Model;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -74,7 +73,10 @@ namespace PublicInfos
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
                 string[] filter = CloudConfig.FilterWord?.Split('|');
                 if (filter != null && filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
+                {
                     ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
+                }
+
                 if (CloudConfig.BlockList != null && CloudConfig.BlockList.Count > 0)
                 {
                     ls = ls.Where(x => !CloudConfig.BlockList.Contains(x.QQID)).ToList();

@@ -18,10 +18,17 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
             MainSave.DBPath = @"data.db";
             MainSave.AppDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
             MainSave.ImageDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
-            DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime dt = new DateTime(DateTime.Now.Year - 1, DateTime.Now.Month, 1);
 
-            var r = DrawWordCloud.Draw(644933097, dt, dt.AddDays(31), 863450594);
-            Console.WriteLine($"WordNum: {r.WordNum}, pic: {r.CloudFilePath}");
+            var groupRanks = DrawGroupRank.GetGroupRanks(644933097, dt, DateTime.Now);
+            if(groupRanks == null)
+            {
+                Assert.Fail();
+            }
+            var rankResult = DrawGroupRank.GenerateRankList(groupRanks);
+            var pic = DrawGroupRank.DrawPieChart(rankResult);
+            pic.Save("1.png");
+            Console.WriteLine(DrawGroupRank.GenerateRankString(rankResult));
         }
     }
 }
