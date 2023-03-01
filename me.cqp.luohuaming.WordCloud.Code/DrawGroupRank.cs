@@ -69,7 +69,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             try
             {
                 List<GroupRankResult> result = new List<GroupRankResult>();
-                //var memberList = MainSave.CQApi.GetGroupMemberList(groupRanks.First().GroupID);
+                var memberList = MainSave.CQApi.GetGroupMemberList(groupRanks.First().GroupID);
                 int totalCount = 0;
                 var extractor = new TfidfExtractor();
                 foreach (var item in groupRanks)
@@ -77,11 +77,16 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     StringBuilder records = new StringBuilder();
                     item.Records.ForEach(x => records.AppendLine(x.Message));
                     var weight = extractor.ExtractTagsWithWeight(records.ToString(), int.MaxValue);
+                    if(weight.Count() == 0)
+                    {
+                        continue;
+                    }
                     totalCount += weight.Count();
                     result.Add(new GroupRankResult
                     {
                         QQ = item.QQ,
-                        WordCount = weight.Count()
+                        WordCount = weight.Count(),
+                        Nick = memberList.FirstOrDefault(x=>x.QQ == item.QQ)?.Nick
                     });
                 }
                 result.ForEach(x => x.Percent = x.WordCount / (double)totalCount);
@@ -91,7 +96,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             }
             catch (Exception ex)
             {
-                // MainSave.CQLog.Error("生成排行文本", $"{ex.Message}\n{ex.StackTrace}");
+                MainSave.CQLog.Error("生成排行文本", $"{ex.Message}\n{ex.StackTrace}");
                 return null;
             }
         }

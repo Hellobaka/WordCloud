@@ -2,6 +2,7 @@
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
 using PublicInfos;
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
@@ -38,14 +39,27 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             {
                 SendID = e.FromGroup,
             };
+            result.SendObject.Add(sendText);
 
             if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
             {
                 e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
             }
 
-            sendText.MsgToSend.Add(CQApi.CQCode_Image(DrawWordCloud.Draw(e.FromGroup, DateTime.Now).CloudFilePath).ToSendString());
-            result.SendObject.Add(sendText);
+            var groupRanks = DrawGroupRank.GetGroupRanks(e.FromGroup, DateTime.Now.AddDays(-1), DateTime.Now);
+            if(groupRanks == null)
+            {
+                sendText.MsgToSend.Add("生成失败");
+                return result;
+            }
+            var rankResult = DrawGroupRank.GenerateRankList(groupRanks);
+            var pic = DrawGroupRank.DrawPieChart(rankResult);
+            string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+            Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "WordCloud"));
+            pic.Save(Path.Combine(MainSave.ImageDirectory, "WordCloud", filename));
+            pic.Dispose();
+            sendText.MsgToSend.Add(CQApi.CQCode_Image($"WordCloud\\{filename}").ToSendString());
+            sendText.MsgToSend.Add(DrawGroupRank.GenerateRankString(rankResult));
             return result;
         }
 
