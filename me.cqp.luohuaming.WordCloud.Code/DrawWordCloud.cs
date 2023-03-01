@@ -30,7 +30,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             var ls = SQLHelper.GetRecordsByDate(GroupID, dateTime, QQ);
             return Draw(ls);
         }
-        public static CloudResult Draw(List<PublicInfos.Model.Record> records)
+        public static CloudResult Draw(List<PublicInfos.Model.Record> records, bool singleColor = false)
         {
             StringBuilder stringBuilder = new StringBuilder();
             records.ForEach(x => stringBuilder.AppendLine(x.Message));
@@ -52,7 +52,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             weight = weight.OrderByDescending(x => x.Weight);
             result.HotWords = new List<string>();
             int index = 0;
-            foreach(var item in weight)
+            foreach (var item in weight)
             {
                 if (index == 3)
                     break;
@@ -65,7 +65,12 @@ namespace me.cqp.luohuaming.WordCloud.Code
             {
                 mask = Image.FromFile(CloudConfig.MaskPath);
             }
-            var wordCloud = new WordCloudSharp.WordCloud(CloudConfig.ImageWidth, CloudConfig.ImageHeight, allowVerical: true, mask: mask, fontname: CloudConfig.Font);
+            Color? fontColor = null;
+            if (singleColor)
+            {
+                fontColor = Color.Black;
+            }
+            var wordCloud = new WordCloudSharp.WordCloud(CloudConfig.ImageWidth, CloudConfig.ImageHeight, allowVerical: true, mask: mask, fontname: CloudConfig.Font, fontColor: fontColor);
             var image = wordCloud.Draw(wordAndFrequence.Select(x => x.Key).ToList(), wordAndFrequence.Select(x => x.Value).ToList());
             string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "WordCloud"));

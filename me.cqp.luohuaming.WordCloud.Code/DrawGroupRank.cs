@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
+using static me.cqp.luohuaming.WordCloud.Code.DrawWordCloud;
 
 namespace me.cqp.luohuaming.WordCloud.Code
 {
@@ -28,6 +29,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             public string Nick { get; set; }
             public int WordCount { get; set; }
             public double Percent { get; set; }
+            public CloudResult CloudResult { get; set; }
         }
 
         public static List<GroupRankItem> GetGroupRanks(long groupID, DateTime dateTimeA, DateTime dateTimeB)
@@ -86,7 +88,8 @@ namespace me.cqp.luohuaming.WordCloud.Code
                     {
                         QQ = item.QQ,
                         WordCount = weight.Count(),
-                        Nick = memberList.FirstOrDefault(x=>x.QQ == item.QQ)?.Nick
+                        Nick = memberList.FirstOrDefault(x=>x.QQ == item.QQ)?.Nick,
+                        CloudResult = DrawWordCloud.Draw(item.Records, true)
                     });
                 }
                 result.ForEach(x => x.Percent = x.WordCount / (double)totalCount);
@@ -127,18 +130,22 @@ namespace me.cqp.luohuaming.WordCloud.Code
             {
                 PrivateFontCollection.AddFontFile(CloudConfig.Font);
             }
+            if(result.Count == 0)
+            {
+                return new Bitmap(400, 400);
+            }
             Color[] colorArr = new Color[]
             {
-                ColorTranslator.FromHtml("#66ccff"),
-                ColorTranslator.FromHtml("#98fb98"),
-                ColorTranslator.FromHtml("#ff0000"),
-                ColorTranslator.FromHtml("#ffff00"),
-                ColorTranslator.FromHtml("#00ffff"),
-                ColorTranslator.FromHtml("#ff00ff"),
-                ColorTranslator.FromHtml("#0000ff"),
-                ColorTranslator.FromHtml("#00ff00"),
-                ColorTranslator.FromHtml("#7fffd4"),
-                ColorTranslator.FromHtml("#00bfff"),
+                ColorTranslator.FromHtml("#66ccffAA"),
+                ColorTranslator.FromHtml("#98fb98AA"),
+                ColorTranslator.FromHtml("#ff0000AA"),
+                ColorTranslator.FromHtml("#ffff00AA"),
+                ColorTranslator.FromHtml("#00ffffAA"),
+                ColorTranslator.FromHtml("#ff00ffAA"),
+                ColorTranslator.FromHtml("#0000ffAA"),
+                ColorTranslator.FromHtml("#00ff00AA"),
+                ColorTranslator.FromHtml("#7fffd4AA"),
+                ColorTranslator.FromHtml("#00bfffAA"),
             };
             Bitmap pie = new Bitmap(4000, 4000);
             int height = 400;
