@@ -1,11 +1,11 @@
-﻿using JiebaNet.Analyser;
-using PublicInfos;
+﻿using PublicInfos;
 using PublicInfos.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Text;
 using static me.cqp.luohuaming.WordCloud.Code.DrawWordCloud;
@@ -21,16 +21,22 @@ namespace me.cqp.luohuaming.WordCloud.Code
             public long GroupID { get; set; }
             public long QQ { get; set; }
             public List<Record> Records { get; set; }
+            public DateTime DateTimeStart { get; set; }
+            public DateTime DateTimeEnd { get; set; }
         }
 
         public class GroupRankResult
         {
+            public long GroupID { get; set; }
             public long QQ { get; set; }
             public string Nick { get; set; }
             public int WordCount { get; set; }
             public double Percent { get; set; }
-            public CloudResult CloudResult { get; set; }
+            public CloudResult CloudResult { get; set; } = new CloudResult();
+            public DateTime DateTimeStart { get; set; }
+            public DateTime DateTimeEnd { get; set; }
         }
+        public static Random Random { get; set; } = new Random();
 
         public static List<GroupRankItem> GetGroupRanks(long groupID, DateTime dateTimeA, DateTime dateTimeB)
         {
@@ -56,7 +62,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 {
                     GroupID = groupID,
                     QQ = qq,
-                    Records = records
+                    Records = records,
+                    DateTimeStart = dateTimeA,
+                    DateTimeEnd = dateTimeB
                 });
             }
             return result;
@@ -73,28 +81,29 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 List<GroupRankResult> result = new List<GroupRankResult>();
                 var memberList = MainSave.CQApi.GetGroupMemberList(groupRanks.First().GroupID);
                 int totalCount = 0;
-                var extractor = new TfidfExtractor();
+                var extractor = DrawWordCloud.extractor;
                 foreach (var item in groupRanks)
                 {
                     StringBuilder records = new StringBuilder();
                     item.Records.ForEach(x => records.AppendLine(x.Message));
                     var weight = extractor.ExtractTagsWithWeight(records.ToString(), int.MaxValue);
-                    if(weight.Count() == 0)
+                    if (weight.Count() == 0)
                     {
                         continue;
                     }
                     totalCount += weight.Count();
                     result.Add(new GroupRankResult
                     {
+                        GroupID = groupRanks.First().GroupID,
                         QQ = item.QQ,
                         WordCount = weight.Count(),
                         Nick = memberList.FirstOrDefault(x=>x.QQ == item.QQ)?.Nick,
-                        CloudResult = DrawWordCloud.Draw(item.Records, true)
+                        CloudResult = CloudConfig.PieWord ? Draw(item.Records, true) : null,
+                        DateTimeStart = groupRanks.First().DateTimeStart,
+                        DateTimeEnd = groupRanks.First().DateTimeEnd,
                     });
                 }
                 result.ForEach(x => x.Percent = x.WordCount / (double)totalCount);
-                extractor = null;
-                GC.Collect();
                 return result.OrderByDescending(x => x.WordCount).ToList();
             }
             catch (Exception ex)
@@ -106,6 +115,10 @@ namespace me.cqp.luohuaming.WordCloud.Code
 
         public static string GenerateRankString(List<GroupRankResult> result)
         {
+            if (result == null || result.Count == 0)
+            {
+                return "";
+            }
             int count = Math.Min(result.Count, CloudConfig.GroupRankMaxCount);
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"前{count}名发言排行：");
@@ -130,23 +143,10 @@ namespace me.cqp.luohuaming.WordCloud.Code
             {
                 PrivateFontCollection.AddFontFile(CloudConfig.Font);
             }
-            if(result.Count == 0)
+            if (result == null || result.Count == 0)
             {
                 return new Bitmap(400, 400);
             }
-            Color[] colorArr = new Color[]
-            {
-                ColorTranslator.FromHtml("#66ccffAA"),
-                ColorTranslator.FromHtml("#98fb98AA"),
-                ColorTranslator.FromHtml("#ff0000AA"),
-                ColorTranslator.FromHtml("#ffff00AA"),
-                ColorTranslator.FromHtml("#00ffffAA"),
-                ColorTranslator.FromHtml("#ff00ffAA"),
-                ColorTranslator.FromHtml("#0000ffAA"),
-                ColorTranslator.FromHtml("#00ff00AA"),
-                ColorTranslator.FromHtml("#7fffd4AA"),
-                ColorTranslator.FromHtml("#00bfffAA"),
-            };
             Bitmap pie = new Bitmap(4000, 4000);
             int height = 400;
             int stringWidth = 0, stringHeight = 0;
@@ -158,33 +158,34 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+                g.TextRenderingHint = TextRenderingHint.AntiAlias;
                 float currentAngle = -90;
                 Random rd = new Random();
-                Font font = null;
-                if (PrivateFontCollection.Families.Length > 0)
-                {
-                    font = new Font(PrivateFontCollection.Families[0], 16);
-                }
-                else
-                {
-                    font = new Font(CloudConfig.Font, 16);
-                }
+                Font font = PrivateFontCollection.Families.Length > 0 ? new Font(PrivateFontCollection.Families[0], 16) : new Font(CloudConfig.Font, 16);
+                // 计算图片长宽
                 for (int i = 0; i < result.Count; i++)
                 {
                     var size = g.MeasureString(legend[i], font);
                     stringWidth = (int)Math.Max(stringWidth, size.Width);
                     stringHeight = (int)Math.Max(stringHeight, size.Height);
                 }
-                height = (result.Count) * (topMargin + stringHeight);
+                height = result.Count * (topMargin + stringHeight);
+                // 绘制饼图以及文字
                 for (int i = 0; i < result.Count; i++)
                 {
                     var item = result[i];
-                    SolidBrush brush = new SolidBrush(colorArr[(i + 1) % colorArr.Length]);
+                    if (File.Exists(item.CloudResult?.CloudFilePath))
+                    {
+                        Image texture = Image.FromFile(item.CloudResult.CloudFilePath);
+                        TextureBrush textureBrush = new TextureBrush(texture);
+                        g.FillPie(textureBrush, new Rectangle(0, 0, height, height), currentAngle, (float)item.Percent * 360);
+                        texture.Dispose();
+                    }
+                    SolidBrush brush = new SolidBrush(GetRandomColor());
                     g.FillPie(brush, new Rectangle(0, 0, height, height), currentAngle, (float)item.Percent * 360);
                     currentAngle += (float)item.Percent * 360;
-                    g.FillRectangle(brush, new Rectangle(height + 15, (topMargin) + (topMargin + stringHeight) * i + 3, 16, 16));
-                    g.DrawString(legend[i], font, Brushes.Black, new Point(height + 15 + 16 + 5, (topMargin) + (topMargin + stringHeight) * i));
+                    g.FillRectangle(brush, new Rectangle(height + 15, topMargin + ((topMargin + stringHeight) * i) + 3, 16, 16));
+                    g.DrawString(legend[i], font, Brushes.Black, new Point(height + 15 + 16 + 5, topMargin + ((topMargin + stringHeight) * i)));
                     // 15方块左边距 16宽度 5方块右边距
                 }
                 g.DrawEllipse(Pens.Black, new Rectangle(0, 0, height, height));
@@ -197,6 +198,11 @@ namespace me.cqp.luohuaming.WordCloud.Code
             }
             pie.Dispose();
             return resultPic;
+        }
+
+        private static Color GetRandomColor()
+        {
+            return Color.FromArgb(CloudConfig.PieWord ? 0xDD : 0xFF, Random.Next(0, 255), Random.Next(0, 255), Random.Next(0, 255));
         }
     }
 }

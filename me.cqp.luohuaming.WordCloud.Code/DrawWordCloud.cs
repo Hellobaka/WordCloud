@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace me.cqp.luohuaming.WordCloud.Code
 {
@@ -18,6 +17,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             public int WordNum { get; set; }
             public List<string> HotWords { get; set; }
         }
+        public static TfidfExtractor extractor { get; set; } = new TfidfExtractor();
         public static CloudResult Draw(long GroupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
         {
             dateTimeA = new DateTime(dateTimeA.Year, dateTimeA.Month, dateTimeA.Day);
@@ -30,11 +30,11 @@ namespace me.cqp.luohuaming.WordCloud.Code
             var ls = SQLHelper.GetRecordsByDate(GroupID, dateTime, QQ);
             return Draw(ls);
         }
-        public static CloudResult Draw(List<PublicInfos.Model.Record> records, bool singleColor = false)
+        public static CloudResult Draw(List<PublicInfos.Model.Record> records, bool smallMode = false)
         {
             StringBuilder stringBuilder = new StringBuilder();
             records.ForEach(x => stringBuilder.AppendLine(x.Message));
-            var extractor = new TfidfExtractor();
+            // var extractor = new TfidfExtractor();
             var weight = extractor.ExtractTagsWithWeight(stringBuilder.ToString(), int.MaxValue);
 
             CloudResult result = new CloudResult();
@@ -44,8 +44,11 @@ namespace me.cqp.luohuaming.WordCloud.Code
             foreach (var item in weight)
             {
                 if (count == CloudConfig.WordNum)
+                {
                     break;
-                wordAndFrequence.Add(item.Word, (int)(item.Weight));
+                }
+
+                wordAndFrequence.Add(item.Word, (int)item.Weight);
                 count++;
             }
 
@@ -55,7 +58,10 @@ namespace me.cqp.luohuaming.WordCloud.Code
             foreach (var item in weight)
             {
                 if (index == 3)
+                {
                     break;
+                }
+
                 result.HotWords.Add(item.Word);
                 index++;
             }
@@ -65,14 +71,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
             {
                 mask = Image.FromFile(CloudConfig.MaskPath);
             }
-            Color? fontColor = null;
-            if (singleColor)
-            {
-                fontColor = Color.Black;
-            }
-            var wordCloud = new WordCloudSharp.WordCloud(CloudConfig.ImageWidth, CloudConfig.ImageHeight, allowVerical: true, mask: mask, fontname: CloudConfig.Font, fontColor: fontColor);
+            var wordCloud = new WordCloudSharp.WordCloud(smallMode ? 200 : CloudConfig.ImageWidth, smallMode ? 200 : CloudConfig.ImageHeight, allowVerical: true, mask: mask, fontname: CloudConfig.Font);
             var image = wordCloud.Draw(wordAndFrequence.Select(x => x.Key).ToList(), wordAndFrequence.Select(x => x.Value).ToList());
-            string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+            string filename = DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
             Directory.CreateDirectory(Path.Combine(MainSave.ImageDirectory, "WordCloud"));
             image.Save(Path.Combine(MainSave.ImageDirectory, "WordCloud", filename));
             image.Dispose();

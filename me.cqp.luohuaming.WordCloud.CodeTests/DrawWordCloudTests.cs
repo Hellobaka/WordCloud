@@ -18,9 +18,9 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
             MainSave.DBPath = @"data.db";
             MainSave.AppDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
             MainSave.ImageDirectory = @"D:\Code\WordCloud\me.cqp.luohuaming.WordCloud.CodeTests\bin\x86\Debug\";
-            DateTime dt = new DateTime(DateTime.Now.Year - 1, DateTime.Now.Month, 1);
+            DateTime d = new DateTime(2022, 8, 25);
 
-            var groupRanks = DrawGroupRank.GetGroupRanks(644933097, dt, DateTime.Now);
+            var groupRanks = DrawGroupRank.GetGroupRanks(644933097, d, d.AddDays(1));
             if(groupRanks == null)
             {
                 Assert.Fail();
@@ -28,6 +28,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.Tests
             var rankResult = DrawGroupRank.GenerateRankList(groupRanks);
             var pic = DrawGroupRank.DrawPieChart(rankResult);
             pic.Save("1.png");
+            pic.Dispose();
             Console.WriteLine(DrawGroupRank.GenerateRankString(rankResult));
         }
     }

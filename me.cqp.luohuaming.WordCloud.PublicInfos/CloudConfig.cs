@@ -428,5 +428,15 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["TodayRank"] = value; MainSave.ConfigMain.Save(); }
         }
+
+        public static bool PieWord
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["PieWord"]?.ToString();
+                return bool.TryParse(b, out bool value) && value;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["DrawPieWord"] = value; MainSave.ConfigMain.Save(); }
+        }
     }
 }
