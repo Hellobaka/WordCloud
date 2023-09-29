@@ -16,6 +16,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
     public class Event_StartUp : ICQStartup
     {
         public static Timer timer = new Timer();
+
         public void CQStartup(object sender, CQStartupEventArgs e)
         {
             try
@@ -72,7 +73,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 timer.Dispose();
             }
         }
-        static bool CallFlag = false;
+
+        private static bool CallFlag = false;
+
         private void CallGenerate(object sender, ElapsedEventArgs e)
         {
             try
@@ -94,9 +97,11 @@ namespace me.cqp.luohuaming.WordCloud.Code
                             case CycleMode.Today:
                                 r = DrawWordCloud.Draw(item, currentTime);
                                 break;
+
                             case CycleMode.Yesterday:
                                 r = DrawWordCloud.Draw(item, currentTime.AddDays(-1));
                                 break;
+
                             default:
                                 r = null;
                                 break;
@@ -121,7 +126,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
                         if (string.IsNullOrWhiteSpace(sendText) is false)
                             MainSave.CQApi.SendGroupMessage(item, sendText);
                         MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image(r.CloudFilePath));
-                        Thread.Sleep(1000 * 60);
+                        Thread.Sleep(CloudConfig.CycleDelay);
                     }
                 }
             }

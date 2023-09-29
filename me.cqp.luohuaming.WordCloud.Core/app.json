@@ -1,41 +1,41 @@
 {
-	"ret": 1,
-	"apiver": 9,
-	"name": "水银词云机",
-	"version": "1.0.9",
-	"version_id": 1,
-	"author": "落花茗",
-	"description": "小词云插件",
-	"event": [
-		{
-			"id": 1,
-			"type": 21,
-			"name": "私聊消息处理",
-			"function": "_eventPrivateMsg",
-			"priority": 30000
-		},
-		{
-			"id": 2,
-			"type": 2,
-			"name": "群消息处理",
-			"function": "_eventGroupMsg",
-			"priority": 30000
-		},
-		{
-			"id": 1001,
-			"type": 1001,
-			"name": "酷Q启动事件",
-			"priority": 30000,
-			"function": "_eventStartup"
-		}
-	],
-	"menu": [
-	],
-	"status": [ 
-	],
-	"auth": [
-		101,
-		106,
-		161
-	]
+  "ret": 1,
+  "apiver": 9,
+  "name": "水银词云机",
+  "version": "1.1.0",
+  "version_id": 1,
+  "author": "落花茗",
+  "description": "小词云插件",
+  "event": [
+    {
+      "id": 1,
+      "type": 21,
+      "name": "私聊消息处理",
+      "function": "_eventPrivateMsg",
+      "priority": 30000
+    },
+    {
+      "id": 2,
+      "type": 2,
+      "name": "群消息处理",
+      "function": "_eventGroupMsg",
+      "priority": 30000
+    },
+    {
+      "id": 1001,
+      "type": 1001,
+      "name": "酷Q启动事件",
+      "priority": 30000,
+      "function": "_eventStartup"
+    }
+  ],
+  "menu": [
+  ],
+  "status": [
+  ],
+  "auth": [
+    101,
+    106,
+    161
+  ]
 }

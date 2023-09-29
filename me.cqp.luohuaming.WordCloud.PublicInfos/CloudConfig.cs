@@ -9,14 +9,19 @@ namespace PublicInfos
     public enum MatchMode
     {
         Regex = 0,
+
         Contain = 1,
+
         Full = 2
     }
+
     public enum CycleMode
     {
         Today = 1,
+
         Yesterday = 0
     }
+
     public static class CloudConfig
     {
         public static int ImageWidth
@@ -40,6 +45,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["ImageWidth"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static int ImageHeight
         {
             get
@@ -54,6 +60,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["ImageHeight"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static int WordNum
         {
             get
@@ -68,6 +75,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["WordNum"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string MaskPath
         {
             get
@@ -77,6 +85,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["MaskPath"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string Font
         {
             get
@@ -86,6 +95,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["Font"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string FilterWord
         {
             get
@@ -94,6 +104,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["FilterWord"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static bool WhiteListSwitch
         {
             get
@@ -108,6 +119,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["WhiteList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
         }
+
         public static List<long> WhiteList
         {
             get
@@ -123,6 +135,7 @@ namespace PublicInfos
                 MainSave.ConfigMain.Object["WhiteList"]["Groups"] = b; MainSave.ConfigMain.Save();
             }
         }
+
         public static List<long> BlockList
         {
             get
@@ -138,6 +151,7 @@ namespace PublicInfos
                 MainSave.ConfigMain.Object["BlockList"]["QQID"] = b; MainSave.ConfigMain.Save();
             }
         }
+
         public static bool BlackListSwitch
         {
             get
@@ -152,6 +166,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["BlackList"]["Switch"] = value ? 1 : 0; MainSave.ConfigMain.Save(); }
         }
+
         public static List<long> BlackList
         {
             get
@@ -176,6 +191,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["SendTmpMsg"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static bool CycleSwitch
         {
             get
@@ -213,6 +229,22 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Cycle"]["Interval"] = value; MainSave.ConfigMain.Save(); }
         }
+
+        public static int CycleDelay
+        {
+            get
+            {
+                int? b = MainSave.ConfigMain.Object["Cycle"]["Delay"];
+                if (b.HasValue is false || b < 10 * 1000)
+                {
+                    b = 60 * 1000;
+                }
+
+                return b.Value;
+            }
+            set { MainSave.ConfigMain.Object["Cycle"]["Delay"] = value; MainSave.ConfigMain.Save(); }
+        }
+
         public static DateTime CycleTime
         {
             get
@@ -227,6 +259,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleTime"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static CycleMode CycleMode
         {
             get
@@ -241,6 +274,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleMode"] = (int)value; MainSave.ConfigMain.Save(); }
         }
+
         public static string CycleText
         {
             get
@@ -249,6 +283,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Cycle"]["CycleText"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static MatchMode MatchMode
         {
             get
@@ -273,6 +308,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["TodayCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string YesterdayCloudOrder
         {
             get
@@ -282,6 +318,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["YesterdayCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string LastWeekCloudOrder
         {
             get
@@ -291,6 +328,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["LastWeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string WeekCloudOrder
         {
             get
@@ -300,6 +338,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["WeekCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string LastMonthCloudOrder
         {
             get
@@ -309,6 +348,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["LastMonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string MonthCloudOrder
         {
             get
@@ -318,6 +358,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["MonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string YearCloudOrder
         {
             get
@@ -327,6 +368,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["YearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string LastYearCloudOrder
         {
             get
@@ -336,6 +378,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["LastYearCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalWeekOrder
         {
             get
@@ -345,6 +388,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalWeekOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalTodayOrder
         {
             get
@@ -354,6 +398,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalTodayOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalMonthOrder
         {
             get
@@ -363,6 +408,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalMonthOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalYearOrder
         {
             get
@@ -372,6 +418,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalLastYearOrder
         {
             get
@@ -381,6 +428,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalLastYearOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalLastWeekOrder
         {
             get
@@ -390,6 +438,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalLastWeekOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalYesterdayOrder
         {
             get
@@ -399,6 +448,7 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["PersonalYesterdayOrder"] = value; MainSave.ConfigMain.Save(); }
         }
+
         public static string PersonalLastMonthOrder
         {
             get
