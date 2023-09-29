@@ -1,14 +1,14 @@
-﻿using System;
+﻿using me.cqp.luohuaming.WordCloud.Sdk.Cqp;
+using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.WordCloud.Tool.IniConfig.Linq;
+using PublicInfos;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Timers;
-using me.cqp.luohuaming.WordCloud.Sdk.Cqp;
-using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
-using me.cqp.luohuaming.WordCloud.Sdk.Cqp.Interface;
-using me.cqp.luohuaming.WordCloud.Tool.IniConfig.Linq;
-using PublicInfos;
 using Timer = System.Timers.Timer;
 
 namespace me.cqp.luohuaming.WordCloud.Code
