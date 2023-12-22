@@ -114,9 +114,9 @@ namespace me.cqp.luohuaming.WordCloud.Code
                         string sendText = CloudConfig.CycleText.Replace("\\n", "\n").Replace("<num>", r.WordNum.ToString());
                         StringBuilder sb = new StringBuilder();
                         int index = 1;
-                        foreach (var word in r.HotWords)
+                        for (int i = 0; i < Math.Min(3, r.Words.Count); i++)
                         {
-                            sb.AppendLine($"{index}. {word}");
+                            sb.AppendLine($"{index}. {r.Words[i]}");
                             index++;
                         }
                         if (sb.Length <= 2)

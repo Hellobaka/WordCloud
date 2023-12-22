@@ -15,7 +15,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
         {
             public string CloudFilePath { get; set; }
             public int WordNum { get; set; }
-            public List<string> HotWords { get; set; }
+            public List<string> Words { get; set; }
         }
         public static TfidfExtractor extractor { get; set; } = new TfidfExtractor();
         public static CloudResult Draw(long GroupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
@@ -53,17 +53,10 @@ namespace me.cqp.luohuaming.WordCloud.Code
             }
 
             weight = weight.OrderByDescending(x => x.Weight);
-            result.HotWords = new List<string>();
-            int index = 0;
+            result.Words = new List<string>();
             foreach (var item in weight)
             {
-                if (index == 3)
-                {
-                    break;
-                }
-
-                result.HotWords.Add(item.Word);
-                index++;
+                result.Words.Add(item.Word);
             }
 
             Image mask = null;

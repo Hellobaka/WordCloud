@@ -483,10 +483,24 @@ namespace PublicInfos
         {
             get
             {
-                var b = MainSave.ConfigMain.Object["Config"]["PieWord"]?.ToString();
+                var b = MainSave.ConfigMain.Object["Config"]["DrawPieWord"]?.ToString();
                 return bool.TryParse(b, out bool value) && value;
             }
             set { MainSave.ConfigMain.Object["Config"]["DrawPieWord"] = value; MainSave.ConfigMain.Save(); }
+        }
+
+        public static int ChartWidth { get; set; }
+
+        public static int ChartHeight { get; set; }
+
+        public static int YearShowWordCount
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["YearShowWordCount"]?.ToString();
+                return int.TryParse(b, out int value) ? value : 10;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["YearShowWordCount"] = value; MainSave.ConfigMain.Save(); }
         }
     }
 }
