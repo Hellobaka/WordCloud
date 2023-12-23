@@ -502,5 +502,15 @@ namespace PublicInfos
             }
             set { MainSave.ConfigMain.Object["Config"]["YearShowWordCount"] = value; MainSave.ConfigMain.Save(); }
         }
+
+        public static bool YearShowWordListMode
+        {
+            get
+            {
+                var b = MainSave.ConfigMain.Object["Config"]["YearShowWordListMode"]?.ToString();
+                return !bool.TryParse(b, out bool value) || value;
+            }
+            set { MainSave.ConfigMain.Object["Config"]["YearShowWordListMode"] = value; MainSave.ConfigMain.Save(); }
+        }
     }
 }

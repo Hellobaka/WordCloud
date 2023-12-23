@@ -50,10 +50,18 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             int count = CloudConfig.YearShowWordCount;
             if (count > 0)
             {
-                statistics += $"\r\n前{count}的词汇为: \r\n";
-                for (int i = 0; i < Math.Min(count, drawResult.Words.Count); i++)
+                statistics += $"\r\n前{count}的词汇为: ";
+                if (CloudConfig.YearShowWordListMode)
                 {
-                    statistics += $"{i + 1}. {drawResult.Words[i]}\r\n";
+                    statistics += "\r\n";
+                    for (int i = 0; i < Math.Min(count, drawResult.Words.Count); i++)
+                    {
+                        statistics += $"{i + 1}. {drawResult.Words[i]}\r\n";
+                    }
+                }
+                else
+                {
+                    statistics += string.Join("、", drawResult.Words.Take(count));
                 }
             }
             sendText.MsgToSend.Add(statistics);
