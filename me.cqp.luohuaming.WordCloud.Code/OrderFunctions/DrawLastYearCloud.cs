@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp;
 using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
@@ -43,6 +44,23 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
             DateTime dt = new DateTime(DateTime.Now.Year - 1, 1, 1);
             var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddYears(1));
             string statistics = $"统计时段: {dt.ToString("G").Replace(" 0:00:00", "")} - {dt.AddYears(1).ToString("G").Replace(" 0:00:00", "")}，共计: {drawResult.WordNum}个词汇";
+            int count = CloudConfig.YearShowWordCount;
+            if (count > 0)
+            {
+                statistics += $"\r\n前{count}的词汇为: ";
+                if (CloudConfig.YearShowWordListMode)
+                {
+                    statistics += "\r\n";
+                    for (int i = 0; i < Math.Min(count, drawResult.Words.Count); i++)
+                    {
+                        statistics += $"{i + 1}. {drawResult.Words[i]}\r\n";
+                    }
+                }
+                else
+                {
+                    statistics += string.Join("、", drawResult.Words.Take(count));
+                }
+            }
             sendText.MsgToSend.Add(statistics);
             sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
             result.SendObject.Add(sendText);
