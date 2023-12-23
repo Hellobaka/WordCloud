@@ -51,6 +51,8 @@ PersonalYearOrder=^(我的)?(个人)?[这|本]个?年词云$
 PersonalLastWeekOrder=^(我的)?(个人)?上个?周词云$
 PersonalYesterdayOrder=^(我的)?(个人)?昨[日|天]词云$
 PersonalLastMonthOrder=^(我的)?(个人)?上个?月词云$
+LastYearCloudOrder=^去年词云$
+PersonalLastYearOrder=^我的去年词云$
 YearShowWordCount=10 ;设置个人以及群年度词云的总结词数量
 YearShowWordListMode=false ;设置总结词展示以列表或顿号分割的形式展示
 
