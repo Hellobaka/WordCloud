@@ -91,6 +91,10 @@ namespace PublicInfos
             get
             {
                 string c = MainSave.ConfigMain.Object["Config"]["Font"]?.ToString();
+                if (string.IsNullOrEmpty(c))
+                {
+                    return "微软雅黑";
+                }
                 return c.EndsWith("ttf") || c.EndsWith("ttc") ? Path.Combine(MainSave.AppDirectory, c) : c;
             }
             set { MainSave.ConfigMain.Object["Config"]["Font"] = value; MainSave.ConfigMain.Save(); }
