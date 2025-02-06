@@ -81,6 +81,10 @@
     <Compile Include="Event_GroupMessage.cs" />
     <Compile Include="Event_StartUp.cs" />
     <Compile Include="OrderFunctions\DrawAnyCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalAnyMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawAnyMonthCloud.cs" />
+    <Compile Include="OrderFunctions\DrawPersonalAnyYearCloud.cs" />
+    <Compile Include="OrderFunctions\DrawAnyYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalLastMonthCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalLastYearCloud.cs" />
     <Compile Include="OrderFunctions\DrawPersonalYearCloud.cs" />
