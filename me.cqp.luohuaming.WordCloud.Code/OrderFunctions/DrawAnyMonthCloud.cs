@@ -1,0 +1,70 @@
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using me.cqp.luohuaming.WordCloud.Sdk.Cqp;
+using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
+using PublicInfos;
+
+namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
+{
+    public class DrawAnyMonthCloud : IOrderModel
+    {
+        public bool ImplementFlag { get; set; } = true;
+
+        public string GetOrderStr() => CloudConfig.AnyMonthCloudOrder;
+
+        public bool Judge(string destStr) => Regex.IsMatch(destStr, GetOrderStr());
+
+        public FunctionResult Progress(CQGroupMessageEventArgs e)//群聊处理
+        {
+            FunctionResult result = new FunctionResult
+            {
+                Result = true,
+                SendFlag = true,
+            };
+            SendText sendText = new SendText
+            {
+                SendID = e.FromGroup,
+            };
+            if (!string.IsNullOrWhiteSpace(CloudConfig.SendTmpMsg))
+                e.FromGroup.SendGroupMessage(CloudConfig.SendTmpMsg.Replace("<@>", CQApi.CQCode_At(e.FromQQ).ToSendString()));
+            string year = Regex.Match(e.Message.Text, GetOrderStr()).Groups[1].Value;
+            int month = int.Parse(Regex.Match(e.Message.Text, GetOrderStr()).Groups[2].Value);
+            if(month < 1 || month > 12)
+            {
+                sendText.MsgToSend.Add("月份输入错误，请输入1-12之间的数字");
+                result.SendObject.Add(sendText);
+                return result;
+            }
+            DateTime dt = new DateTime(int.Parse(year), month, 1);
+            var drawResult = DrawWordCloud.Draw(e.FromGroup, dt, dt.AddMonths(1));
+            string statistics = $"统计时段: {dt.ToString("G").Replace(" 0:00:00", "")} - {dt.AddYears(1).ToString("G").Replace(" 0:00:00", "")}，共计: {drawResult.WordNum}个词汇";
+            int count = CloudConfig.YearShowWordCount;
+            if (count > 0)
+            {
+                statistics += $"\r\n前{count}的词汇为: ";
+                if (CloudConfig.YearShowWordListMode)
+                {
+                    statistics += "\r\n";
+                    for (int i = 0; i < Math.Min(count, drawResult.Words.Count); i++)
+                    {
+                        statistics += $"{i + 1}. {drawResult.Words[i]}\r\n";
+                    }
+                }
+                else
+                {
+                    statistics += string.Join("、", drawResult.Words.Take(count));
+                }
+            }
+            sendText.MsgToSend.Add(statistics);
+            sendText.MsgToSend.Add(CQApi.CQCode_Image(drawResult.CloudFilePath).ToSendString());
+            result.SendObject.Add(sendText);
+            return result;
+        }
+
+        public FunctionResult Progress(CQPrivateMessageEventArgs e)//私聊处理
+        {
+            return new FunctionResult { Result = false, SendFlag = false };
+        }
+    }
+}
