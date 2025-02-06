@@ -7,6 +7,22 @@
 以下提及的所有文件均在[1.0.0](https://github.com/Hellobaka/WordCloud/releases/tag/1.0.0)
 1. 下载插件
 2. 解压`jieba.zip`到数据目录下(`me.cqp.luohuaming.WordCloud`)
+文件夹结构：
+```
+│  Config.ini
+│  data.db
+└─ jieba
+        char_state_tab.json
+        cn_synonym.txt
+        dict.txt
+        idf.txt
+        pos_prob_emit.json
+        pos_prob_start.json
+        pos_prob_trans.json
+        prob_emit.json
+        prob_trans.json
+        stopwords.txt
+```
 3. 挂机一段时间，待群内有足够多的消息
 4. `今[日|天]词云` => 今天的词云
 5. `昨[日|天]词云` => 昨天的词云
