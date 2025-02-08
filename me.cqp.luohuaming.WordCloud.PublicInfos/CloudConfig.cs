@@ -388,7 +388,7 @@ namespace PublicInfos
             get
             {
                 var b = MainSave.ConfigMain.Object["Config"]["AnyMonthCloudOrder"]?.ToString();
-                return string.IsNullOrWhiteSpace(b) ? "^(20\\d{2}-\\d{1,2})月词云$" : b;
+                return string.IsNullOrWhiteSpace(b) ? "^(20\\d{2})-(\\d{1,2})月词云$" : b;
             }
             set { MainSave.ConfigMain.Object["Config"]["AnyMonthCloudOrder"] = value; MainSave.ConfigMain.Save(); }
         }
