@@ -16,6 +16,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
             public string CloudFilePath { get; set; }
             public int WordNum { get; set; }
             public List<string> Words { get; set; }
+            public Dictionary<long, int> Pensons { get; set; } = new();
         }
         public static TfidfExtractor extractor { get; set; } = new TfidfExtractor();
         public static CloudResult Draw(long GroupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
@@ -32,12 +33,23 @@ namespace me.cqp.luohuaming.WordCloud.Code
         }
         public static CloudResult Draw(List<PublicInfos.Model.Record> records, bool smallMode = false)
         {
+            CloudResult result = new CloudResult();
             StringBuilder stringBuilder = new StringBuilder();
-            records.ForEach(x => stringBuilder.AppendLine(x.Message));
+            records.ForEach(x =>
+            {
+                stringBuilder.AppendLine(x.Message);
+                if (result.Pensons.ContainsKey(x.QQID))
+                {
+                    result.Pensons[x.QQID] = result.Pensons[x.QQID] + 1;
+                }
+                else
+                {
+                    result.Pensons[x.QQID] = 1;
+                }
+            });
             // var extractor = new TfidfExtractor();
             var weight = extractor.ExtractTagsWithWeight(stringBuilder.ToString(), int.MaxValue);
 
-            CloudResult result = new CloudResult();
             Dictionary<string, int> wordAndFrequence = new Dictionary<string, int>();
             result.WordNum = weight.Count();
             int count = 0;

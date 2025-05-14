@@ -5,6 +5,7 @@ using me.cqp.luohuaming.WordCloud.Tool.IniConfig.Linq;
 using PublicInfos;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace me.cqp.luohuaming.WordCloud.Code
 {
     public class Event_StartUp : ICQStartup
     {
-        public static Timer timer = new Timer();
+        public static Timer timer = new();
 
         public void CQStartup(object sender, CQStartupEventArgs e)
         {
@@ -33,14 +34,20 @@ namespace me.cqp.luohuaming.WordCloud.Code
                 foreach (var item in Assembly.GetAssembly(typeof(Event_GroupMessage)).GetTypes())
                 {
                     if (item.IsInterface)
+                    {
                         continue;
+                    }
+
                     foreach (var instance in item.GetInterfaces())
                     {
                         if (instance == typeof(IOrderModel))
                         {
                             IOrderModel obj = (IOrderModel)Activator.CreateInstance(item);
                             if (obj.ImplementFlag == false)
+                            {
                                 break;
+                            }
+
                             MainSave.Instances.Add(obj);
                         }
                     }
@@ -81,38 +88,32 @@ namespace me.cqp.luohuaming.WordCloud.Code
             try
             {
                 if (CallFlag)
+                {
                     return;
+                }
+
                 int hour = DateTime.Now.Hour, minute = DateTime.Now.Minute;
                 if (CloudConfig.CycleTime.Hour == hour && CloudConfig.CycleTime.Minute == minute)
                 {
                     CallFlag = true;
-                    Thread thread = new Thread(() => { Thread.Sleep(60 * 1000); CallFlag = false; });
+                    Thread thread = new(() => { Thread.Sleep(60 * 1000); CallFlag = false; });
                     thread.Start();
                     DateTime currentTime = DateTime.Now;
                     foreach (var item in CommonHelper.GetSendGroup())
                     {
-                        DrawWordCloud.CloudResult r;
-                        switch (CloudConfig.CycleMode)
+                        DrawWordCloud.CloudResult r = CloudConfig.CycleMode switch
                         {
-                            case CycleMode.Today:
-                                r = DrawWordCloud.Draw(item, currentTime);
-                                break;
-
-                            case CycleMode.Yesterday:
-                                r = DrawWordCloud.Draw(item, currentTime.AddDays(-1));
-                                break;
-
-                            default:
-                                r = null;
-                                break;
-                        }
+                            CycleMode.Today => DrawWordCloud.Draw(item, currentTime),
+                            CycleMode.Yesterday => DrawWordCloud.Draw(item, currentTime.AddDays(-1)),
+                            _ => null,
+                        };
                         if (r == null)
                         {
                             MainSave.CQLog.Info("词云生成失败", "时钟事件, result为空, 检查 CycleMode 是否为0或者为1");
                             return;
                         }
                         string sendText = CloudConfig.CycleText.Replace("\\n", "\n").Replace("<num>", r.WordNum.ToString());
-                        StringBuilder sb = new StringBuilder();
+                        StringBuilder sb = new();
                         int index = 1;
                         for (int i = 0; i < Math.Min(3, r.Words.Count); i++)
                         {
@@ -120,11 +121,43 @@ namespace me.cqp.luohuaming.WordCloud.Code
                             index++;
                         }
                         if (sb.Length <= 2)
+                        {
                             continue;
+                        }
+
                         sb.Replace(Environment.NewLine, "", sb.Length - 2, 1);
                         sendText = sendText.Replace("<content>", sb.ToString());
                         if (string.IsNullOrWhiteSpace(sendText) is false)
+                        {
                             MainSave.CQApi.SendGroupMessage(item, sendText);
+                            Thread.Sleep(2000);
+                        }
+
+                        var arr = r.Pensons.OrderByDescending(x => x.Value).ToArray();
+                        sendText = CloudConfig.CyclePersonText.Replace("\\n", "\n").Replace("<personnum>", arr.Length.ToString()).Replace("<sentensenum>", arr.Sum(x => x.Value).ToString());
+                        sb = new StringBuilder();
+                        index = 1;
+                        for (int i = 0; i < Math.Min(3, arr.Length); i++)
+                        {
+                            var t = arr[i];
+                            var info = MainSave.CQApi.GetGroupMemberInfo(item, t.Key);
+                            string card = string.IsNullOrWhiteSpace(info.Card) ? info.Nick : info.Card;
+                            sb.AppendLine($"{index}. {card} 发言 {t.Value} 条");
+                            index++;
+                        }
+                        if (sb.Length <= 2)
+                        {
+                            continue;
+                        }
+
+                        sb.Replace(Environment.NewLine, "", sb.Length - 2, 1);
+                        sendText = sendText.Replace("<content>", sb.ToString());
+                        if (string.IsNullOrWhiteSpace(sendText) is false)
+                        {
+                            MainSave.CQApi.SendGroupMessage(item, sendText);
+                            Thread.Sleep(2000);
+                        }
+
                         MainSave.CQApi.SendGroupMessage(item, CQApi.CQCode_Image(r.CloudFilePath));
                         Thread.Sleep(CloudConfig.CycleDelay);
                     }

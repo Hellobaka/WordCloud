@@ -72,7 +72,8 @@ namespace PublicInfos
                     .Where(x => x.DateTime > dateTimeA && x.DateTime < dateTimeB).ToList();
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
                 string[] filter = CloudConfig.FilterWord?.Split('|');
-                if (filter != null && filter.Length >= 1 && !string.IsNullOrWhiteSpace(filter[0]))
+                filter = filter.Where(f => !string.IsNullOrWhiteSpace(f)).ToArray();
+                if (filter != null && filter.Length >= 1)
                 {
                     ls = ls.Where(x => !filter.Any(o => x.Message.Contains(o))).ToList();
                 }

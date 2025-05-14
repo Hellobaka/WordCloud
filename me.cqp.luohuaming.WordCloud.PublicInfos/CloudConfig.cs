@@ -288,6 +288,15 @@ namespace PublicInfos
             set { MainSave.ConfigMain.Object["Cycle"]["CycleText"] = value; MainSave.ConfigMain.Save(); }
         }
 
+        public static string CyclePersonText
+        {
+            get
+            {
+                return MainSave.ConfigMain.Object["Cycle"]["CyclePersonText"]?.ToString();
+            }
+            set { MainSave.ConfigMain.Object["Cycle"]["CyclePersonText"] = value; MainSave.ConfigMain.Save(); }
+        }
+
         public static MatchMode MatchMode
         {
             get
