@@ -1,6 +1,7 @@
 ﻿using me.cqp.luohuaming.WordCloud.Sdk.Cqp.EventArgs;
 using PublicInfos;
 using System;
+using System.Linq;
 
 namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
 {
@@ -19,6 +20,12 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
                 Result = false,
                 SendFlag = false,
             };
+            string[] filter = CloudConfig.FilterWord?.Split('|');
+            filter = filter.Where(f => !string.IsNullOrWhiteSpace(f)).ToArray();
+            if (filter.Any(x => e.Message.Text.Contains(x)))
+            {
+                return result;
+            }
             SQLHelper.AddRecord(e.FromGroup, e.FromQQ, e.Message);
             return result;
         }
