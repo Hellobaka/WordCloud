@@ -13,15 +13,14 @@ namespace PublicInfos
         {
             SqlSugarClient db = new SqlSugarClient(new ConnectionConfig()
             {
-                //TODO: 插件发布时替换此处
-                //ConnectionString = $"data source={Path.Combine(Environment.CurrentDirectory, "data.db")}",
-                ConnectionString = $"data source={MainSave.DBPath}",
+                ConnectionString = $"data source={MainSave.DBPath};Cache Size=10000;Page Size=4096;Journal Mode=WAL;Synchronous=Normal;",
                 DbType = DbType.Sqlite,
                 IsAutoCloseConnection = true,
                 InitKeyType = InitKeyType.Attribute,
             });
             return db;
         }
+
         /// <summary>
         /// 数据库不存在时将会创建
         /// </summary>
@@ -29,30 +28,24 @@ namespace PublicInfos
         {
             using (var db = GetInstance())
             {
-                //TODO: 插件发布时替换此处
                 db.DbMaintenance.CreateDatabase(MainSave.DBPath);
-                //db.DbMaintenance.CreateDatabase(Path.Combine(Environment.CurrentDirectory, "data.db"));
-                db.CodeFirst.InitTables(typeof(Record));
+                db.CodeFirst.SplitTables().InitTables(typeof(Record));
             }
         }
+
         public static void AddRecord(long GroupID, long QQID, string Message)
         {
             AddRecord(new Record { GroupID = GroupID, QQID = QQID, Message = Message, DateTime = DateTime.Now });
         }
+
         public static void AddRecord(Record record)
         {
             using (var db = GetInstance())
             {
-                db.Insertable(record).ExecuteCommand();
+                db.Insertable(record).SplitTable().ExecuteReturnSnowflakeId();
             }
         }
-        public static List<string> GetAllMsg()
-        {
-            using (var db = GetInstance())
-            {
-                return db.Queryable<Record>().Select(x => x.Message).ToList();
-            }
-        }
+
         public static List<Record> GetRecordsByDate(long groupID, DateTime dateTime, long QQ = 0)
         {
             using (var db = GetInstance())
@@ -62,6 +55,7 @@ namespace PublicInfos
                 return GetRecordsByDateRange(groupID, dt1, dt2, QQ);
             }
         }
+
         public static List<Record> GetRecordsByDateRange(long groupID, DateTime dateTimeA, DateTime dateTimeB, long QQ = 0)
         {
             using (var db = GetInstance())
@@ -69,7 +63,9 @@ namespace PublicInfos
                 var ls = db.Queryable<Record>()
                     .Where(x => x.GroupID == groupID)
                     .WhereIF(QQ != 0, x => x.QQID == QQ)
-                    .Where(x => x.DateTime > dateTimeA && x.DateTime < dateTimeB).ToList();
+                    .SplitTable(dateTimeA, dateTimeB)
+                    .Where(x => x.DateTime > dateTimeA && x.DateTime < dateTimeB)
+                    .ToList();
                 ls.ForEach(x => x.Message = Regex.Replace(x.Message, @"\[CQ.*\]", ""));
                 string[] filter = CloudConfig.FilterWord?.Split('|');
                 filter = filter.Where(f => !string.IsNullOrWhiteSpace(f)).ToArray();

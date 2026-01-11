@@ -3,14 +3,21 @@ using System;
 
 namespace PublicInfos.Model
 {
-    [SugarTable("Record")]
+    [SplitTable(SplitType.Year)]
+    [SugarTable("Record_{year}{month}{day}")]
+    [SugarIndex("index_{split_table}_groupid_datetime", nameof(GroupID), OrderByType.Asc, nameof(DateTime), OrderByType.Desc)]
     public class Record
     {
-        [SugarColumn(IsIdentity =true, IsPrimaryKey =true)]
-        public int RowID { get; set; }
+        [SugarColumn(IsPrimaryKey = true)]
+        public long Id { get; set; }
+
         public long GroupID { get; set; }
+
         public long QQID { get; set; }
+
         public string Message { get; set; }
+
+        [SplitField]
         public DateTime DateTime { get; set; }
     }
 }
