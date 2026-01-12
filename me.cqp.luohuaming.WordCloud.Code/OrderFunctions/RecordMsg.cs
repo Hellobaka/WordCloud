@@ -20,7 +20,7 @@ namespace me.cqp.luohuaming.WordCloud.Code.OrderFunctions
                 Result = false,
                 SendFlag = false,
             };
-            string[] filter = CloudConfig.FilterWord?.Split('|');
+            string[] filter = CloudConfig.RecordFilterWord?.Split('|');
             filter = filter.Where(f => !string.IsNullOrWhiteSpace(f)).ToArray();
             if (filter.Any(x => e.Message.Text.Contains(x)))
             {

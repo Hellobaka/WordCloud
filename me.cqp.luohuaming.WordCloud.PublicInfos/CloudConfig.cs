@@ -109,6 +109,15 @@ namespace PublicInfos
             set { MainSave.ConfigMain.Object["Config"]["FilterWord"] = value; MainSave.ConfigMain.Save(); }
         }
 
+        public static string RecordFilterWord
+        {
+            get
+            {
+                return MainSave.ConfigMain.Object["Config"]["RecordFilterWord"]?.ToString();
+            }
+            set { MainSave.ConfigMain.Object["Config"]["RecordFilterWord"] = value; MainSave.ConfigMain.Save(); }
+        }
+
         public static bool WhiteListSwitch
         {
             get
